@@ -1,11 +1,13 @@
 typedef struct
 {
-    int *liste_sommet;
-    int poids;
-}etat;
+    regle * rules;
+    int nbrules;
+    int priority;
+    int energy;
 
-int calculPoids(int** grapheComplet, etat* state, int N);
-etat *genereCycleHamiltonien(int **grapheComplet,int N);
-int* permuter(int* liste, int i, int j);
-void genereEtat(int** grapheComplet, etat * state, etat * newState, int N);
+}state;
+
+
+
+void generateState(etat * state, etat * newState, state * energy(state * state));
 
