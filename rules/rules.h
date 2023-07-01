@@ -1,14 +1,11 @@
 #define N 4
+#define NB_RULES 25
 typedef struct
 {
-    int possibleValues ={0,1,2,3};
+    int energy;
+    int possibleValues[N];
     int rules[N];
     int priority;
-}regle;
+}regle_t;
 
-typedef struct 
-{
-    regle * rule; 
-    int nbrules;
-} jeu_de_regle;
 
