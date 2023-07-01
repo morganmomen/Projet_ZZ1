@@ -10,7 +10,7 @@ regle *changeRule1(regle *rule) {
   randomval = rand() % N;
   randomprio = rand() % N;
   rule->rules[randompos] = rule->possibleValues[randomval];
-  rule->priority = random;
+  rule->priority = randomprio;
   return rule;
 }
 
