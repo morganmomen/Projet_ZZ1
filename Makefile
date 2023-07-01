@@ -35,3 +35,6 @@ $(OBJDIR)/%.o: $(RECUIT_DIR)/%.c
 clean:
 	rm -f $(OBJDIR)/*.o $(EXECUTABLE)
 
+valgrind:
+	 valgrind --leak-check=full --show-reachable=yes --error-limit=no --suppressions=linux_sdl_gl.sup ./$(EXECUTABLE)
+
