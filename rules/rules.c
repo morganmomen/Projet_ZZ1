@@ -1,7 +1,7 @@
 #include "rules.h"
 #include "energy.h"
 
-rule_t *generateRule(void) {
+rule_t *generateRule() {
   rule_t *rule = malloc(sizeof(rule_t));
   for (int i = 0; i < N; i++)
     rule->rules[i] = rand() % N;

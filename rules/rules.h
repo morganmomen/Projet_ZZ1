@@ -10,6 +10,13 @@ typedef struct
 
 typedef struct
 {
-    regle_t *rules[NB_RULES];
+    rule_t *rules[NB_RULES];
     int energy;
 }ruleSet_t;
+
+rule_t *generateRule();
+ruleSet_t **generateRuleSet();
+void printRule(rule_t *rule);
+void printRuleSet(rule_t **rules);
+void freeRule(rule_t *rule);
+void freeRuleSet(rule_t **rules);
