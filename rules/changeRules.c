@@ -1,7 +1,7 @@
 #include "changeRules.h"
 #include "rules.h"
 
-regle *changeRule1(regle *rule) {
+void changeRule1(rule_t *rule) {
   int randompos;
   int randomval;
   int randomprio;
@@ -11,41 +11,39 @@ regle *changeRule1(regle *rule) {
   randomprio = rand() % N;
   rule->rules[randompos] = rule->possibleValues[randomval];
   rule->priority = randomprio;
-  return rule;
 }
 
-regle *changeRule2(regle *rule, int energy(regle *rule)) {
-  regle *bestRule = malloc(sizeof(regle));
-  bestRule = rule;
-    int bestEnergy = energy(rule);
-    int randompos = rand() % N;
-    for (int i = 0; i < N; i++)
-    {
-        rule->rules[randompos] = rule->possibleValues[i];
-        if (energy(rule) < bestEnergy)
-        {
-            bestRule = rule;
-            bestEnergy = energy(rule);
-        }
+void changeRule2(ruleSet_t *rules, int i, int energy(ruleSet_t *rules)) {
+  ruleSet_t *bestRules = malloc(sizeof(ruleSet_t));
+  bestRules = rules;
+  int bestEnergy = rules->energy;
+  int randompos = rand() % N;
+  for (int i = 0; i < N; i++) {
+    rules->rules[i]->rules[randompos] = rules->rules[i]->possibleValues[i];
+    if (energy(rules) < bestEnergy) {
+      bestRules = rules;
+      bestEnergy = energy(rules);
     }
-    
+  }
 
-  return rule;
+  bestRules->energy = bestEnergy;
 }
 
-regle *changeRule3(regle *rule, int energy(regle *rule),int pos) 
-{
-    regle *bestRule = malloc(sizeof(regle));
-    bestRule = rule;
-    int bestEnergy = energy(rule);
-    for (int i = 0; i < N; i++)
-    {
-        rule->rules[pos] = rule->possibleValues[i];
-        if (energy(rule) < bestEnergy)
-        {
-            bestRule = rule;
-            bestEnergy = energy(rule);
-        }
+void changeRule3(ruleSet_t *rules, int energy(ruleSet_t *rules), int pos) {
+  ruleSet_t *bestRules = malloc(sizeof(ruleSet_t));
+  bestRules = rules;
+  int bestEnergy = rules->energy;
+  for (int i = 0; i < N; i++) {
+    rules->rules[pos] = rules->rules[i]->possibleValues[i];
+    if (energy(rules) < bestEnergy) {
+      bestRules = rules;
+      bestEnergy = energy(rules);
     }
-  return rule;
+  }
+}
+
+ruleSet_t **changeRuleSet(ruleSet_t **rules) {
+  for (int i = 0; i < NB_RULES; i++)
+    changeRule1(rules[i]);
+  return rules;
 }

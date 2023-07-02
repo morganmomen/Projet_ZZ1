@@ -2,10 +2,14 @@
 #define NB_RULES 25
 typedef struct
 {
-    int energy;
     int possibleValues[N];
     int rules[N];
     int priority;
-}regle_t;
+}rule_t;
 
 
+typedef struct
+{
+    regle_t *rules[NB_RULES];
+    int energy;
+}ruleSet_t;

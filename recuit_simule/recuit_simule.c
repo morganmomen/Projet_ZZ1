@@ -1,15 +1,16 @@
 #include "recuit_simule.h"
-#include <stdlib.h>
+#include <../rules/changeRules.h>
+#include <../rules/rules.h>
+#include <../rules/energy.h>
 
 
 
 
 
 
-state * recuit_simule (int ** grapheComplet,int N, int T, int calculPoids(int** grapheComplet, etat *state, int N)) 
+regle_t ** recuit_simule (regle_t **rules,int T, int energy(int** grapheComplet, regle_t **state, int N)) 
 {
-    etat * state = genereCycleHamiltonien(grapheComplet, N);
-    etat * newState = malloc(sizeof(etat));
+    regle_t ** newrules = malloc(NB_RULES*sizeof(rules));
     while (T > 0) 
     {
         genereEtat(grapheComplet, state, newState, N);
