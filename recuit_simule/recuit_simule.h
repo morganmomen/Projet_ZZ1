@@ -1,7 +1,11 @@
-#ifndef GENETAT_H
-#define GENETAT_H
-//#include "genereEtat.h"
-#endif
 #include <math.h>
 #include <time.h>
-//etat * simulatedAnnealing(int ** grapheComplet,int N, int T, int calculPoids(int** grapheComplet, etat *state, int N));
+/**
+ * @brief Algorithme du recuit simulé sur un ensemble de règles
+ *
+ * @param rules Ensemble de règles
+ * @param T Température
+ * @param energy Performance de l'ensemble de règles
+ * @return rules Ensemble de règles optimisé
+ */
+ruleSet_t *recuit_simule(ruleSet_t *rules, int T, int energy(ruleSet_t *rules));
