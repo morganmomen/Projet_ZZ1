@@ -1,5 +1,4 @@
 #include "changeRules.h"
-#include "rules.h"
 
 case_t change_case(case_t *_case, int direction, int changement) {
   switch (changement) {
