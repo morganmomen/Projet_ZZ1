@@ -8,6 +8,9 @@
 #define __CREA_MAP__H
 
 int ** init_map (int taille);
+int ** crea_map (int taille,int nombre_obstacle_max);
+void afficher_map (int ** map,int taille);
+void liberer_map (int ** map, int taille);
 
 
 
