@@ -39,7 +39,7 @@ int ** crea_map (int taille,int nombre_obstacle_max)
                     p = rand() % 100;
                     if ((p<proba)&&(compteur<nombre_obstacle_max))
                     {
-                        if ((((map[i+1][j]!=1)&&(map[i-1][j]!=1))||((map[i][j-1]!=1)&&(map[i][j+1]!=1)))||((map[i-1][j-1]!=1)&&(map[i+1][j+1]!=1)))
+                        if ((((map[i+1][j]!=1)&&(map[i-1][j]!=1))&&((map[i][j-1]!=1)||(map[i][j+1]!=1)))&&(((map[i-1][j-1]!=1)||(map[i+1][j+1]!=1)))&&((map[i+1][j-1]!=1)||(map[i-1][j+1]!=1)))
                         {
                             if (((map[i][j+1]!=3)&&((map[i+1][j]!=3)&&(map[i+1][j+1]!=3)))&&((map[i][j-1]!=2)&&(map[i-1][j]!=2)))
                             {
