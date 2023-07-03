@@ -5,10 +5,10 @@ typedef enum { JOKER = -1, VIDE, MUR, TERRIER, LAPIN, CHASSEUR} case_t;
 typedef enum { NORD, OUEST, SUD, EST } direction4_t;
 
 typedef enum { PROCHE, MOYEN, LOIN } distance_t;
-typedef enum { AVANCER, RECULER, TOURNER_GAUCHE, TOURNER_DROITE } action_t;
+typedef enum { AVANCER, GAUCHE, RECULER, DROITE } action_t;
 
 typedef struct {
-  case_t devant, gauche, derriere, droite;
+  case_t _case[4];
   direction4_t direction_predateur;
   direction4_t direction_terrier;
   distance_t distance_predateur;
