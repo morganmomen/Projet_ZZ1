@@ -20,7 +20,7 @@ typedef enum { PROCHE, MOYEN, LOIN } distance_t;
 typedef enum { AVANCER, GAUCHE, RECULER, DROITE } action_t;
 
 typedef struct {
-  case_t _case[4];
+  case_t _case[4]; //devant gauche derriere droite
   direction4_t direction_predateur;
   direction4_t direction_terrier;
   distance_t distance_predateur;
@@ -48,7 +48,7 @@ typedef struct {
 } ruleSet_t;
 
 void generateRule(rule_t *rule);
-ruleSet_t **generateRuleSet();
+//ruleSet_t **generateRuleSet();
 void printRule(rule_t *rule);
 void printRuleSet(rule_t **rules);
 void freeRule(rule_t *rule);
