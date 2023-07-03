@@ -1,31 +1,36 @@
 #include "rules.h"
 #include "energy.h"
 
-rule_t *generateRule() {
-  rule_t *rule = malloc(sizeof(rule_t));
-  for (int i = 0; i < N; i++)
-    rule->rules[i] = rand() % N;
-  rule->priority = 1;
-  return rule;
+void generateRule( rule_t *rule) {
+  srand(time(NULL) + rand());
+  rule->devant = (rand() % 4) -1;
+  rule->gauche = (rand() % 4) -1;
+  rule->derriere = (rand() % 4) -1;
+  rule->droite = (rand() % 4) -1;
+  rule->direction_predateur = (rand() % 5) -1;
+  rule->direction_terrier = (rand() % 5) -1;
+  rule->distance_predateur = (rand() % 3) -1;
+  rule->distance_terrier = (rand() % 3) -1;
+  rule->action = (rand() % 4);
+  rule->priority = (rand() % 4);
+  
 }
+
 
 ruleSet_t **generateRuleSet() {
   rule_t **rules = malloc(sizeof(ruleSet_t *));
   for (int i = 0; i < NB_RULES; i++)
-    rules[i] = generateRule();
+    generateRule(&rules[i]);
   return rules;
 }
 
 void printRule(rule_t *rule) {
-  printf("Rule: ");
-  for (int i = 0; i < N; i++)
-    printf("%d ", rule->rules[i]);
-  printf("Priority: %d\n", rule->priority);
+ printf("Rule:[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule->devant, rule->gauche, rule->derriere, rule->droite, rule->direction_predateur, rule->direction_terrier, rule->distance_predateur, rule->distance_terrier, rule->action, rule->priority);
 }
 void printRuleSet(rule_t **rules) {
   printf("Rule set:\n");
   for (int i = 0; i < NB_RULES; i++)
-    printRule(rules[i]);
+    printRule(&rules[i]);
 }
 
 void freeRule(rule_t *rule) {
