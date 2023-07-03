@@ -10,9 +10,9 @@
 
 
 #define N 4 
-#define NB_RULES 25
+#define NB_RULES 500
 
-typedef enum  { JOKER = -1, MUR, VIDE, TERRIER } case_t;
+typedef enum  { JOKER = -1, VIDE, MUR, TERRIER } case_t;
 
 typedef enum { NORD, OUEST, SUD, EST } direction4_t;
 
