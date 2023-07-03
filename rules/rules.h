@@ -1,7 +1,6 @@
-#define N 4
 #define NB_RULES 25
 
-typedef enum { JOKER = -1, MUR, VIDE, TERRIER } case_t;
+typedef enum { JOKER = -1, VIDE, MUR, TERRIER, LAPIN, CHASSEUR} case_t;
 
 typedef enum { NORD, OUEST, SUD, EST } direction4_t;
 
@@ -20,6 +19,7 @@ typedef struct {
 } rule_t;
 
 typedef struct {
+    int updated;
   rule_t *rules[NB_RULES];
   int energy;
 } ruleSet_t;
