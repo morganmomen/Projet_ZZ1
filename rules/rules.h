@@ -8,14 +8,14 @@
 #define RULES_H
 
 #define N 4
-#define NB_RULES 500
+#define NB_RULES 24
 
 typedef enum { JOKER = -1, VIDE, MUR, TERRIER, LAPIN, CHASSEUR } case_t;
 
-typedef enum { NORD, OUEST, SUD, EST } direction4_t;
+typedef enum {JOKER_DIRECTION =-1, NORD, OUEST, SUD, EST } direction4_t;
 
-typedef enum { PROCHE, MOYEN, LOIN } distance_t;
-typedef enum { AVANCER, GAUCHE, RECULER, DROITE } action_t;
+typedef enum { JOKER_DISTANCE =-1,PROCHE, MOYEN, LOIN } distance_t;
+typedef enum {AVANCER, GAUCHE, RECULER, DROITE } action_t;
 
 typedef struct {
   case_t _case[4]; // devant gauche derriere droite
@@ -39,7 +39,7 @@ typedef struct joueur {
 
 typedef struct {
   int updated;
-  rule_t rules[NB_RULES];
+  rule_t *rules;
   int energy;
 } ruleSet_t;
 
@@ -50,5 +50,5 @@ void printRuleSet(ruleSet_t *rules);
 void freeRule(rule_t *rule);
 void freeRuleSet(rule_t **rules);
 void writeRulesToFile(rule_t* rules, int size, const char* filename);
-rule_t* readRulesFromFile(int* size, const char* filename);
+void readRulesFromFile(const char* filename, rule_t** rules);
 #endif
