@@ -11,6 +11,7 @@ DIJKSTRA_DIR = ../dijkstra/
 
 # Fichiers sources
 AFFICHAGE_SOURCES =	$(AFFICHAGE_DIR)affichage_fct.c \
+					$(AFFICHAGE_DIR)ajout_sprite.c \
 					$(AFFICHAGE_DIR)init_SDL.c \
 
 MAP_SOURCE = $(MAP_DIR)crea_map.c

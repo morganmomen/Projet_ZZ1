@@ -82,7 +82,7 @@ int chasse (int ** map,int taille,position *  position_chasseur)
 
     affichefond(renderer,window,map,taille+2);
     SDL_RenderPresent(renderer);
-    SDL_Delay(100);
+    SDL_Delay(1000);
     
     position * position_lapin = malloc(sizeof(position));
     int chasser = 1;
