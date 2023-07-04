@@ -3,6 +3,7 @@
 
 int ** init_map (int taille)
 {
+    taille = taille - 2;
     int **map = malloc((taille+2) * sizeof(int *));
     for (int i = 0; i < (taille+2); i++)
     {
@@ -14,7 +15,7 @@ int ** init_map (int taille)
     }
     return map;
 }
-
+/*
 int ** crea_map (int taille,int nombre_obstacle_max)
 {
     int ** map =init_map(taille);
@@ -54,10 +55,11 @@ int ** crea_map (int taille,int nombre_obstacle_max)
     }
     return(map);
 }
-
+*/
 
 void afficher_map (int ** map,int taille)
 {
+    taille = taille -2;
     for (int i = 0; i < (taille+2); i++)
     {
         printf("[");
@@ -75,9 +77,59 @@ void afficher_map (int ** map,int taille)
 
 void liberer_map (int ** map, int taille)
 {
+    taille = taille -2;
     for (int i = 0; i < (taille+2); i++)
     {
         free(map[i]);
     }
     free(map);
+}
+
+
+void generateMaze(int** maze,int taille) {
+    int i, j;
+
+    //Initialisation du générateur de nombres aléatoires
+    srand(time(NULL));
+
+    //Initialisation du labyrinthe avec des murs sur tout le contour
+    for (i = 0; i < taille; i++) {
+        for (j = 0; j < taille; j++) {
+            if (i == 0 || i == taille - 1 || j == 0 || j == taille - 1)
+                maze[i][j] = 1;  // Contour du labyrinthe
+            else
+                maze[i][j] = 0;  // Espace libre à l'intérieur du labyrinthe
+        }
+    }
+
+    // Génération du labyrinthe en utilisant l'algorithme de votre choix
+    // Ici, nous utilisons une génération aléatoire des murs avec une densité encore plus faible
+    for (i = 2; i < taille - 1; i += 2) {
+        for (j = 2; j < taille - 1; j += 2) {
+            if (rand() % 5 != 0) {  // Probabilité de 4/5 pour ajouter un mur
+                maze[i][j] = 1;  // Ajout d'un mur aux emplacements pairs
+                int randDir = rand() % 4;  // Choix aléatoire d'une direction
+                switch (randDir) {
+                    case 0:  // Déplacement vers le haut
+                        maze[i - 1][j] = 1;
+                        break;
+                    case 1:  // Déplacement vers le bas
+                        maze[i + 1][j] = 1;
+                        break;
+                    case 2:  // Déplacement vers la gauche
+                        maze[i][j - 1] = 1;
+                        break;
+                    case 3:  // Déplacement vers la droite
+                        maze[i][j + 1] = 1;
+                        break;
+                }
+            }
+        }
+    }
+
+    maze[1][1] = 2;  // Position de départ
+    maze[taille - 2][taille - 2] = 3; 
+    if(maze[2][1]!=1){
+        maze[2][1]=4;
+    }
 }
