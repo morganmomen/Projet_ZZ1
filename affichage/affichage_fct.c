@@ -11,10 +11,12 @@ int offset_x_chasseur,offset_y_chasseur;
 int chasseurIndex =0;
 
 
- int window_w=-1, window_h=-1;
- SDL_Texture* texture[3] = {NULL,NULL,NULL};
- int N = -1;
+int window_w=-1, window_h=-1;
+SDL_Texture* texture[3] = {NULL,NULL,NULL};
+int N = -1;
 
+mouvement  lapin_struct = {0,-1,-1};
+mouvement  chasseur_struct = {0,-1,-1};
 
 
 void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map, int taille)
@@ -90,6 +92,8 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
         SDL_GetWindowSize(window, &window_w, &window_h);
 
     }
+    
+
     Draw_Lapin(window,renderer,lapin,&lapintexture,&offset_x_lapin,&offset_y_lapin);
     if(lapintexture == NULL) printf("PAS DE TEXTURE \n");
     int nb_images_w = 8, nb_images_h=4;
@@ -97,20 +101,29 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
     SDL_Rect destination_lapin={0};
     SDL_Rect source_lapin={0};
 
-    destination_lapin.w = offset_x_lapin * 0.8;       
-    destination_lapin.h = offset_y_lapin * 0.8;
+    destination_lapin.w = offsetX * 0.5 +10;       
+    destination_lapin.h = offsetY * 0.5 +10;
     destination_lapin.y = y*offsetY;
     destination_lapin.x = x*offsetX;
+
+    if(lapin_struct.x_precedent == -1 || lapin_struct.y_precedent == -1){
+        lapin_struct.x_precedent = x ;
+        lapin_struct.y_precedent = y ;
+    }
+    else
+    {
+        int retour = deplacement_orientation(&lapin_struct,x,y);
+        lapinIndex =retour*nb_images_w + (lapinIndex + 1) %nb_images_w;
+        
+    }
   
     source_lapin.x = lapin[lapinIndex].x;
     source_lapin.y = lapin[lapinIndex].y;
     source_lapin.w = lapin[lapinIndex].w;
     source_lapin.h = lapin[lapinIndex].h;
 
-    printf ("\n source lapin : %d %d %d %d\n",source_lapin.x,source_lapin.y,source_lapin.w,source_lapin.h);
-    printf ("\n dest lapin :%d %d %d %d\n",destination_lapin.x,destination_lapin.y,destination_lapin.w,destination_lapin.h);
-
-    lapinIndex = (lapinIndex+ 1) % nb_images_w;
+    
+    
     SDL_RenderCopy(renderer, lapintexture,&source_lapin, &destination_lapin);
 }
 
@@ -129,53 +142,64 @@ void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int
     int nb_images_w = 9, nb_images_h=4;
 
     
-    destination_chasseur.w = offsetX*1.2;       
-    destination_chasseur.h = offsetY*1.2;
+    destination_chasseur.w = offsetX;       
+    destination_chasseur.h = offsetY;
     destination_chasseur.y = y*offsetY;
     destination_chasseur.x = x*offsetX ;
 
+    
+    if(chasseur_struct.x_precedent == -1 || chasseur_struct.y_precedent == -1){
+        chasseur_struct.x_precedent = x ;
+        chasseur_struct.y_precedent = y ;
+    }
+    else
+    {
+        int retour = deplacement_orientation(&chasseur_struct,x,y);
+        //chasseurIndex =  (chasseurIndex + 1) %nb_images_w;
+        chasseurIndex =retour*nb_images_w + (chasseurIndex + 1) %nb_images_w;
+        
+    }
+     
     source_chasseur.x = chasseur[chasseurIndex].x;
     source_chasseur.y = chasseur[chasseurIndex].y;
     source_chasseur.w = chasseur[chasseurIndex].w;
     source_chasseur.h = chasseur[chasseurIndex].h;
 
-    chasseurIndex = (chasseurIndex + 1) % nb_images_w;
-
-    printf ("\n source ch : %d %d %d %d\n",source_chasseur.x,source_chasseur.y,source_chasseur.w,source_chasseur.h);
-    printf ("\n dest ch :  %d %d %d %d\n",destination_chasseur.x,destination_chasseur.y,destination_chasseur.w,destination_chasseur.h);
-
+    
     SDL_RenderCopy(renderer, chasseurtexture, &source_chasseur, &destination_chasseur);
-    //SDL_RenderCopy(renderer, chasseurtexture, &source_chasseur, NULL);
-    SDL_Delay(800);
+    SDL_Delay(100);
 
 }
 
 
-// 0:bouge pas, 1:descend, 2:monte, 3:va vers la gauche, 4:va vers la droite
-int deplacement_orientation ( int x_ancienne,int y_ancienne,int x_nouvelle, int y_nouvelle )
+// 0:haut, 1:gauche, 2:bas, 3:va vers la droite 4:neutre
+int deplacement_orientation (mouvement * ancien,int x_nouvelle, int y_nouvelle )
 {   
     int retour ;
-    if (x_ancienne<x_nouvelle)
+    if (ancien->x_precedent<x_nouvelle)
+    {
+        retour = 3;
+    }
+    else if (ancien->x_precedent>x_nouvelle)
     {
         retour = 1;
     }
-    else if (x_ancienne>x_nouvelle)
+    else if (ancien->y_precedent<y_nouvelle)
     {
-        retour = 2;
-    }
-    else if (y_ancienne<y_nouvelle)
-    {
-        retour=4;
+        retour=2;
 
     }
-    else if (y_ancienne>y_nouvelle)
+    else if (ancien->y_precedent>y_nouvelle)
     {
-        retour=3;
-    }
-    else{
         retour=0;
     }
+    else{
+        retour=ancien->orientation_precedente;
+    }
+    ancien->x_precedent = x_nouvelle;
+    ancien->y_precedent= y_nouvelle;
     return(retour);
+    
 }
 
 
