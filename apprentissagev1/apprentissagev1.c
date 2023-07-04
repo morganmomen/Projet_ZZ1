@@ -1,6 +1,18 @@
-#include "../gestion_jeu/gestion_jeu.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+#include <string.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include "../Map/crea_map.h"
+#include "../dijkstra/dijkstra.h"
+#include "../affichage/affichage_fct.h"
+#include "../affichage/init_SDL.h"
+#include "../Chasseur/gere_chasseur.h"
+#include "../lapin/mvt_lapin.h"
 
-int lancer_jeu_sans_graphisme (int taille, int *nb_iterations,ruleSet_t *rules)
+int lancer_jeu_sans_graphisme_apprentissage (int taille, int *nb_iterations,ruleSet_t *rules)
 {
     int ** map = NULL;
     map = init_map(taille+2);
@@ -55,7 +67,7 @@ void energy(ruleSet_t *rules, int taille)
 {
     int nb_iterations=0;
     int energy = 0;
-    int drapeau_chasseur = lancer_jeu_sans_graphisme(taille, &nb_iterations, rules);
+    int drapeau_chasseur = lancer_jeu_sans_graphisme_apprentissage(taille, &nb_iterations, rules);
     if (drapeau_chasseur == 0)
     {
         energy = INT_MAX - nb_iterations;
@@ -66,7 +78,7 @@ void energy(ruleSet_t *rules, int taille)
     }
     rules->energy = energy;
 }
-int main()
+ int main()
 {
     int nb_iterations;
     int taille = 15;
@@ -79,6 +91,6 @@ int main()
     {
         changeRule2(*rules,energy,taille);
     }
-    
-
+    printf("Energy : %d\n",rules->energy);
+    return 0;
 }
