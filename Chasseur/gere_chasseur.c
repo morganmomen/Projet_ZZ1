@@ -62,6 +62,7 @@ void deplacement_chasseur (int ** map,int taille, position *  position_chasseur,
     etat_prochain= obtenirChemin(suivant,arriver,&tailleChemin);
 
     printf ("\n %d \n",etat_prochain[tailleChemin-2]);
+    printf("\n\ntaille chemin : %d \n\n",tailleChemin);
    
     if (tailleChemin>2)
     {
@@ -103,16 +104,17 @@ int chasse (int ** map,int taille,position *  position_chasseur)
     SDL_Renderer * renderer = NULL;
     initSDL(&window,&renderer);
 
-    affichefond(renderer,window,map);
+    affichefond(renderer,window,map,taille+2);
     SDL_RenderPresent(renderer);
-    SDL_Delay(3000);
+    SDL_Delay(000);
     
     position * position_lapin = malloc(sizeof(position));
     int chasser = 1;
     position * position_terrier=malloc(sizeof(position));
     position_terrier->x=1;
     position_terrier->y=1;
-    while(chasser==1){   
+    //while(chasser==1){ 
+    for(int i=0;i<100;i++){  
         chercher_position_lapin(map,taille,position_lapin);
         printf("\n\n");
         deplacement_chasseur (map,taille,position_chasseur,position_lapin);
@@ -127,12 +129,14 @@ int chasse (int ** map,int taille,position *  position_chasseur)
 
         afficher_map(map,taille+2);
         SDL_RenderClear(renderer);
-        affichefond(renderer,window,map);
+        affichefond(renderer,window,map,taille+2);
         SDL_RenderPresent(renderer);
-        SDL_Delay(100);
+        SDL_Delay(20);
     }
-
+    printf("FINI\n");
     free(position_terrier);
     free(position_lapin);
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
     return(chasser);
 }

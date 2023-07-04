@@ -5,16 +5,16 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
 
-    int taille = 15;
+    int taille = 25;
     int nombre_obstacle = 40;
 
    // map = crea_map (taille,nombre_obstacle);
-    
+   
     int** map;
     map = init_map(taille+2);
 
     generateMaze(map, taille+2);
-    
+        
 
     int retour_chasse;
     position * position_chasseur = malloc(sizeof(position));
@@ -25,6 +25,8 @@ int main(int argc, char **argv)
 
     liberer_map(map,taille);
     free(position_chasseur);
+
+    
 
     return(0);
 }

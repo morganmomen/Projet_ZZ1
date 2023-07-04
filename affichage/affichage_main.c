@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
 {
     (void)argc;
     (void)argv;
-
+    int N = 17;
     SDL_Window * window = NULL;
     SDL_Renderer * renderer = NULL;
     initSDL(&window,&renderer);
