@@ -7,6 +7,7 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include "init_SDL.h"
+#include "ajout_sprite.h"
 
 
 void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map, int taille);

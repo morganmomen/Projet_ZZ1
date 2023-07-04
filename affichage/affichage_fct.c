@@ -79,13 +79,24 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
         SDL_GetWindowSize(window, &window_w, &window_h);
 
     }
-    int offsetX =   window_w /(N);
-    int offsetY = window_h/(N);
+    int nb_images_w = 8, nb_images_h=4;
+    int zoom =1;
+    SDL_Rect destination_lapin={0};
+    SDL_Rect source_lapin={0};
 
-    SDL_Rect rect = {y*offsetX +5,x*offsetY +5,offsetY-10,offsetX-10};
-    SDL_SetRenderDrawColor(renderer,255,226,161,255);     
-                                       
-    SDL_RenderFillRect(renderer, &rect); 
+    destination_lapin.w = offset_x_lapin * zoom;       
+    destination_lapin.h = offset_y_lapin * zoom;
+    destination_lapin.y = y;
+    destination_lapin.x = x;
+  
+    source_lapin.x = lapin[lapinIndex[0]][lapinIndex[1]].x;
+    source_lapin.y = lapin[lapinIndex[0]][lapinIndex[1]].y;
+    source_lapin.w = lapin[lapinIndex[0]][lapinIndex[1]].w;
+    source_lapin.h = lapin[lapinIndex[0]][lapinIndex[1]].h;
+
+    lapinIndex[0] = (lapinIndex[0] + 1) % nb_images_w;
+    SDL_RenderCopy(renderer, lapintexture, &source_chasseur, &destination_chasseur);
+    
 
 }
 
@@ -98,19 +109,28 @@ void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int
         SDL_GetWindowSize(window, &window_w, &window_h);
 
     }
-    int offsetX =   window_w /(N);
-    int offsetY = window_h/(N);
+     
+    SDL_Rect destination_chasseur={0};
+    SDL_Rect source_chasseur={0};
+    int nb_images_w = 8, nb_images_h=4;
 
-    //SDL_Rect rect = {x*offsetX +5,y*offsetY +5,offsetX - 10,offsetY-10};   
-    SDL_Rect rect = {y*offsetX +5,x*offsetY +5,offsetY-10,offsetX-10};
+    int zoom =1;
+    destination_chasseur.w = offset_x_chasseur * zoom;       
+    destination_chasseur.h = offset_y_chasseur * zoom;
+    destination_chasseur.y = y;
+    destination_chasseur.x = x;
 
-    SDL_SetRenderDrawColor(renderer,0,0,255,255);     
-                                       
-    SDL_RenderFillRect(renderer, &rect); 
+    source_chasseur.x = chasseur[chasseurIndex[0]][chasseurIndex[1]].x;
+    source_chasseur.y = chasseur[chasseurIndex[0]][chasseurIndex[1]].y;
+    source_chasseur.w = chasseur[chasseurIndex[0]][chasseurIndex[1]].w;
+    source_chasseur.h = chasseur[chasseurIndex[0]][chasseurIndex[1]].h;
+    chasseurIndex[0] = (chasseurIndex[0] + 1) % nb_images_w;
+
+    SDL_RenderCopy(renderer, lapintexture, &source_chasseur, &destination_chasseur);
 
 }
 
 
-/*TEMPORAIRE */
+
 
 
