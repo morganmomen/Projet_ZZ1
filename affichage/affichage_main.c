@@ -19,6 +19,12 @@ int main(int argc, char const *argv[])
     int ** map = crea_map (N,nombre_obstacle_max);
 
     affichefond(renderer,window,map);
+    afficheLapin(renderer,window,map,10,10);
+    afficheChasseur(renderer,window,map,2,1);
+
+    SDL_RenderPresent(renderer);
+    SDL_Delay(3000);
+
     afficher_map(map,N);
     liberer_map(map,N);
 

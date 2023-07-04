@@ -11,3 +11,5 @@
 #define N 10
 
 void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map);
+void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y);
+void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y);

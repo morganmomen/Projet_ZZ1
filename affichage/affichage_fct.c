@@ -51,10 +51,44 @@ void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map)
             }
         }
     }
-    SDL_RenderPresent(renderer);
-    SDL_Delay(3000);
 
 
+}
 
+void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y)
+{
+
+    if(window_w==-1 || window_h==-1){
+        SDL_DisplayMode screen;
+        SDL_GetCurrentDisplayMode(0, &screen);
+        SDL_GetWindowSize(window, &window_w, &window_h);
+
+    }
+    int offsetX =   window_w /(N+2);
+    int offsetY = window_h/(N+2);
+
+    SDL_Rect rect = {x*offsetX +5,y*offsetY +5,offsetX - 10,offsetY-10};    
+    SDL_SetRenderDrawColor(renderer,255,226,161,255);     
+                                       
+    SDL_RenderFillRect(renderer, &rect); 
+
+}
+
+void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y)
+{
+
+    if(window_w==-1 || window_h==-1){
+        SDL_DisplayMode screen;
+        SDL_GetCurrentDisplayMode(0, &screen);
+        SDL_GetWindowSize(window, &window_w, &window_h);
+
+    }
+    int offsetX =   window_w /(N+2);
+    int offsetY = window_h/(N+2);
+
+    SDL_Rect rect = {x*offsetX +5,y*offsetY +5,offsetX - 10,offsetY-10};    
+    SDL_SetRenderDrawColor(renderer,0,0,255,255);     
+                                       
+    SDL_RenderFillRect(renderer, &rect); 
 
 }
