@@ -1,4 +1,5 @@
 #include "rules.h"
+#include "energy.h"
 
 /**
  * @brief Change la regle d'une case d'une règle
@@ -61,3 +62,14 @@ rule_t *changeRule(ruleSet_t rules, int id_rule);
  * @return ruleSet_t*
  */
 ruleSet_t *changeRuleSet(ruleSet_t *rules);
+
+int choose_rule();
+int choose_parameter();
+void insertRule(ruleSet_t ruleset, ruleSet_t ruleset_attempt[], int parameter,
+                int possibility, int nb_rule);
+ruleSet_t change_case2(ruleSet_t ruleset, int nb_rule, int parameter);
+ruleSet_t change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter);
+ruleSet_t change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter);
+ruleSet_t change_action_2(ruleSet_t ruleset, int nb_rule, int parameter);
+ruleSet_t change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter);
+ruleSet_t changeRule2(ruleSet_t rules);

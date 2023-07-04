@@ -1,9 +1,12 @@
 #include "changeRules.h"
+#include <limits.h>
+
 // /**
 //  * @brief Change la regle d'une case d'une règle
 //  *
 //  * @param _case Structure identifiant le contenu de la case
-//  * @param direction Détermine la case a regarder (0: haut, 1: gauche, 2: bas, 3:
+//  * @param direction Détermine la case a regarder (0: haut, 1: gauche, 2: bas,
+//  3:
 //  * droite)
 //  * @param changement augmente de 1 ou diminue de 1 la valeur de la case
 //  * @return case_t
@@ -104,9 +107,12 @@
 // }
 // /**
 //  * @brief Change la regle de l'ensemble de règles en utilisant les fonctions
-//  * précédentes : change_case, change_direction, change_distance, change_action,
-//  * change_priority On prend chaques valeurs dans la règle, on augmente de 1 ou
-//  * diminue de 1 et on compare l'énergie de la règle avec la nouvelle règle. On
+//  * précédentes : change_case, change_direction, change_distance,
+//  change_action,
+//  * change_priority On prend chaques valeurs dans la règle, on augmente de 1
+//  ou
+//  * diminue de 1 et on compare l'énergie de la règle avec la nouvelle règle.
+//  On
 //  * garde la meilleure règle.
 //  *
 //  * @param rules Ensemble de règles
@@ -119,13 +125,11 @@
 //   int energy_attempt_1;
 //   int energy_attempt_2;
 //   for (int i = 0; i < 4; i++) {
-//     rule_attempt_1->_case[i] = change_case(rules->rules[id_rule]->_case, i, 1);
-//     rule_attempt_2->_case[i] = change_case(rules->rules[id_rule]->_case, i, -1);
-//     rules.rules[id_rule] = rule_attempt_1;
-//     energy_attempt_1 = energy(rules);
-//     rules.rules[id_rule] = rule_attempt_2;
-//     energy_attempt_2 = energy(rules);
-//     if (energy_attempt_1 < energy_attempt_2) {
+//     rule_attempt_1->_case[i] = change_case(rules->rules[id_rule]->_case, i,
+//     1); rule_attempt_2->_case[i] = change_case(rules->rules[id_rule]->_case,
+//     i, -1); rules.rules[id_rule] = rule_attempt_1; energy_attempt_1 =
+//     energy(rules); rules.rules[id_rule] = rule_attempt_2; energy_attempt_2 =
+//     energy(rules); if (energy_attempt_1 < energy_attempt_2) {
 //       best_rule = rule_attempt_1;
 //     } else {
 //       best_rule = rule_attempt_2;
@@ -185,18 +189,16 @@
 //   }
 //   rule_attempt_1->action = change_action(&(rules.rules[id_rule]->action), 1);
 //   rules.rules[id_rule] = rule_attempt_1;
-//   rule_attempt_2->action = change_action(&(rules.rules[id_rule]->action), -1);
-//   rules.rules[id_rule] = rule_attempt_2;
-//   energy_attempt_1 = energy(rules);
-//   energy_attempt_2 = energy(rules);
-//   if (energy_attempt_1 < energy_attempt_2) {
+//   rule_attempt_2->action = change_action(&(rules.rules[id_rule]->action),
+//   -1); rules.rules[id_rule] = rule_attempt_2; energy_attempt_1 =
+//   energy(rules); energy_attempt_2 = energy(rules); if (energy_attempt_1 <
+//   energy_attempt_2) {
 //     best_rule = rule_attempt_1;
 //   } else {
 //     best_rule = rule_attempt_2;
 //   }
-//   rule_attempt_1->priority = change_priority(rules.rules[id_rule]->priority, 1);
-//   rules.rules[id_rule] = rule_attempt_1;
-//   rule_attempt_2->priority =
+//   rule_attempt_1->priority = change_priority(rules.rules[id_rule]->priority,
+//   1); rules.rules[id_rule] = rule_attempt_1; rule_attempt_2->priority =
 //       change_priority(rules.rules[id_rule]->priority, -1);
 //   rules.rules[id_rule] = rule_attempt_2;
 //   energy_attempt_1 = energy(rules);
@@ -221,14 +223,164 @@
 //   return rules;
 // }
 
-int choose_rule()
-{
-  int rule = rand() %NB_RULES;
+int choose_rule() {
+  int rule = rand() % NB_RULES;
   return rule;
 }
-int choose_parameter()
-{
-  int parameter = rand() %10;
-  return parameter; 
+int choose_parameter() {
+  int parameter = rand() % 10;
+  return parameter;
+}
+void insertRule(ruleSet_t ruleset, ruleSet_t ruleset_attempt[], int parameter,
+                int possibility, int nb_rule) {
+  ruleSet_t attempt_ruleset = ruleset;
+  switch (parameter) {
+  case 0:
+    attempt_ruleset.rules[nb_rule]._case[parameter] = possibility;
+    break;
+  case 1:
+    attempt_ruleset.rules[nb_rule]._case[parameter] = possibility;
+    break;
+  case 2:
+    attempt_ruleset.rules[nb_rule]._case[parameter] = possibility;
+    break;
+  case 3:
+    attempt_ruleset.rules[nb_rule]._case[parameter] = possibility;
+    break;
+  case 4:
+    attempt_ruleset.rules[nb_rule].direction_predateur = possibility;
+    break;
+  case 5:
+    attempt_ruleset.rules[nb_rule].direction_terrier = possibility;
+    break;
+  case 6:
+    attempt_ruleset.rules[nb_rule].distance_predateur = possibility;
+    break;
+  case 7:
+    attempt_ruleset.rules[nb_rule].distance_terrier = possibility;
+    break;
+  case 8:
+    attempt_ruleset.rules[nb_rule].action = possibility;
+    break;
+  case 9:
+    attempt_ruleset.rules[nb_rule].priority = possibility;
+    break;
+  default:
+    break;
+  }
+
+  ruleset_attempt[possibility + 1] = attempt_ruleset;
+}
+ruleSet_t change_case2(ruleSet_t ruleset, int nb_rule, int parameter) {
+  int bestEnergy = INT_MAX;
+  int bestruleSet = -1;
+  ruleSet_t ruleset_attempt[6];
+  for (int i = 0; i < 6; i++) {
+    insertRule(ruleset, ruleset_attempt, parameter, i - 1, nb_rule);
+    energy(ruleset_attempt[i]);
+    if (ruleset_attempt[i].energy <= bestEnergy) {
+      bestEnergy = ruleset_attempt[i].energy;
+      bestruleSet = i;
+    }
+  }
+  return ruleset_attempt[bestruleSet];
 }
 
+ruleSet_t change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter) {
+  int bestEnergy = INT_MAX;
+  int bestruleSet = -1;
+  ruleSet_t ruleset_attempt[5];
+  for (int i = 0; i < 5; i++) {
+    insertRule(ruleset, ruleset_attempt, parameter, i - 1, nb_rule);
+    energy(ruleset_attempt[i]);
+    if (ruleset_attempt[i].energy <= bestEnergy) {
+      bestEnergy = ruleset_attempt[i].energy;
+      bestruleSet = i;
+    }
+  }
+  return ruleset_attempt[bestruleSet];
+}
+ruleSet_t change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter) {
+  int bestEnergy = INT_MAX;
+  int bestruleSet = -1;
+  ruleSet_t ruleset_attempt[4];
+  for (int i = 0; i < 4; i++) {
+    insertRule(ruleset, ruleset_attempt, parameter, i, nb_rule);
+    energy(ruleset_attempt[i]);
+    if (ruleset_attempt[i].energy <= bestEnergy) {
+      bestEnergy = ruleset_attempt[i].energy;
+      bestruleSet = i;
+    }
+  }
+  return ruleset_attempt[bestruleSet];
+}
+
+ruleSet_t change_action_2(ruleSet_t ruleset, int nb_rule, int parameter) {
+  int bestEnergy = INT_MAX;
+  int bestruleSet = -1;
+  ruleSet_t ruleset_attempt[3];
+  for (int i = 0; i < 3; i++) {
+    insertRule(ruleset, ruleset_attempt, parameter, i - 1, nb_rule);
+    energy(ruleset_attempt[i]);
+    if (ruleset_attempt[i].energy <= bestEnergy) {
+      bestEnergy = ruleset_attempt[i].energy;
+      bestruleSet = i;
+    }
+  }
+  return ruleset_attempt[bestruleSet];
+}
+
+ruleSet_t change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter) {
+  int bestEnergy = INT_MAX;
+  int bestruleSet = -1;
+  ruleSet_t ruleset_attempt[3];
+  for (int i = 1; i < 4; i++) {
+    insertRule(ruleset, ruleset_attempt, parameter, i, nb_rule);
+    energy(ruleset_attempt[i]);
+    if (ruleset_attempt[i].energy <= bestEnergy) {
+      bestEnergy = ruleset_attempt[i].energy;
+      bestruleSet = i;
+    }
+  }
+  return ruleset_attempt[bestruleSet];
+}
+ruleSet_t changeRule2(ruleSet_t rules) {
+  int nb_rule = choose_rule();
+  int parameter = choose_parameter();
+  ruleSet_t bestRules;
+  switch (parameter) {
+  case 0:
+    bestRules= change_case2(rules, nb_rule, parameter);
+    break;
+  case 1:
+    bestRules=change_case2(rules, nb_rule, parameter);
+    break;
+  case 2:
+    bestRules=change_case2(rules, nb_rule, parameter);
+    break;
+  case 3:
+    bestRules=change_case2(rules, nb_rule, parameter);
+    break;
+  case 4:
+    bestRules=change_direction_2(rules, nb_rule, parameter);
+    break;
+  case 5:
+    bestRules=change_direction_2(rules, nb_rule, parameter);
+    break;
+  case 6:
+    bestRules=change_distance_2(rules, nb_rule, parameter);
+    break;
+  case 7:
+    bestRules=change_distance_2(rules, nb_rule, parameter);
+    break;
+  case 8:
+    bestRules=change_action_2(rules, nb_rule, parameter);
+    break;
+  case 9:
+    bestRules=change_priority_2(rules, nb_rule, parameter);
+    break;
+  default:
+    break;
+  }
+return bestRules;
+}
