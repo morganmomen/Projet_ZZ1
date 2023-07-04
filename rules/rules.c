@@ -41,3 +41,49 @@ void freeRuleSet(rule_t **rules) {
     freeRule(rules[i]);
   free(rules);
 }
+
+
+rule_t* readRulesFromFile(int* size, const char* filename) {
+  FILE* file = fopen(filename, "r");
+  if (file == NULL) {
+    printf("Erreur lors de l'ouverture du fichier.\n");
+    *size = 0;
+    return NULL;
+  }
+
+  // Lire le nombre de règles en premier paramètre
+  fscanf(file, "%d\n", size);
+
+  // Allouer le tableau pour les règles
+  rule_t* rules = (rule_t*)malloc(*size * sizeof(rule_t));
+
+  // Lire les règles à partir du fichier
+  int i = 0;
+  while (fscanf(file, "[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", &rules[i]._case[0], &rules[i]._case[1], &rules[i]._case[2],
+                &rules[i]._case[3], &rules[i].direction_predateur, &rules[i].direction_terrier,
+                &rules[i].distance_predateur, &rules[i].distance_terrier, &rules[i].action, &rules[i].priority) != EOF) {
+    i++;
+  }
+
+  fclose(file);
+  return rules;
+}
+
+void writeRulesToFile(rule_t* rules, int size, const char* filename) {
+  FILE* file = fopen(filename, "w");
+  if (file == NULL) {
+    printf("Erreur lors de l'ouverture du fichier.\n");
+    return;
+  }
+
+  fprintf(file, "%d\n", size); // Écrire le nombre de règles en premier paramètre
+
+  for (int i = 0; i < size; i++) {
+    rule_t rule = rules[i];
+    fprintf(file, "[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule._case[0], rule._case[1], rule._case[2], rule._case[3],
+            rule.direction_predateur, rule.direction_terrier, rule.distance_predateur, rule.distance_terrier,
+            rule.action, rule.priority);
+  }
+
+  fclose(file);
+}
