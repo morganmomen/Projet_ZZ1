@@ -8,7 +8,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "init_SDL.h"
 
-#define N 15
+#define N 17
 
 void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map);
 void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y);

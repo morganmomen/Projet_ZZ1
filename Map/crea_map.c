@@ -3,7 +3,7 @@
 
 int ** init_map (int taille)
 {
-    taille = taille - 2;
+    taille = taille;
     int **map = malloc((taille+2) * sizeof(int *));
     for (int i = 0; i < (taille+2); i++)
     {
@@ -127,12 +127,7 @@ void generateMaze(int** maze,int taille) {
         }
     }
 
-    maze[1][1] = 2;  // Position de départ
-    maze[taille - 2][taille - 2] = 3; 
-    if(maze[2][1]!=1){
-        maze[2][1]=4;
-    }
-    else{
-        maze[1][2]=4;
-    }
+    maze[1][1] = 2;  // Position terrier du lapin
+    maze[taille - 2][taille - 2] = 3; // Position du lapin
+    
 }

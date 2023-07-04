@@ -37,7 +37,6 @@ void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map)
             if(map[i][j]==1){
                 SDL_Rect rect = {i*offsetX,j*offsetY,offsetX,offsetY};
                 if(renderer == NULL) printf("renderer is NULL\n");
-                printf("rect.x = %d rect.y = %d rect.w = %d rect.h = %d\n",rect.x,rect.y,rect.w,rect.h);
                 SDL_RenderCopy(renderer, texture[1], NULL, &rect);
             }
             else if(map[i][j]==2){
@@ -87,7 +86,7 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
 
 void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y)
 {
-
+    
     if(window_w==-1 || window_h==-1){
         SDL_DisplayMode screen;
         SDL_GetCurrentDisplayMode(0, &screen);

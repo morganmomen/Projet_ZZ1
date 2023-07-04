@@ -98,14 +98,21 @@ void deplacement_chasseur (int ** map,int taille, position *  position_chasseur,
 
 int chasse (int ** map,int taille,position *  position_chasseur)
 {
+
+    SDL_Window * window = NULL;
+    SDL_Renderer * renderer = NULL;
+    initSDL(&window,&renderer);
+
+    affichefond(renderer,window,map);
+    SDL_RenderPresent(renderer);
+    SDL_Delay(3000);
+    
     position * position_lapin = malloc(sizeof(position));
     int chasser = 1;
     position * position_terrier=malloc(sizeof(position));
     position_terrier->x=1;
-    afficher_map(map,taille);
     position_terrier->y=1;
-    for (int i=0;i<20;i++)
-    {    
+    while(chasser==1){   
         chercher_position_lapin(map,taille,position_lapin);
         printf("\n\n");
         deplacement_chasseur (map,taille,position_chasseur,position_lapin);
@@ -117,10 +124,15 @@ int chasse (int ** map,int taille,position *  position_chasseur)
         {
             chasser = 2;
         }
-        afficher_map(map,taille);
+
+        afficher_map(map,taille+2);
+        SDL_RenderClear(renderer);
+        affichefond(renderer,window,map);
+        SDL_RenderPresent(renderer);
+        SDL_Delay(100);
     }
+
     free(position_terrier);
     free(position_lapin);
     return(chasser);
-
 }

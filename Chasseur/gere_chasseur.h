@@ -4,8 +4,13 @@
 #include <math.h>
 #include <string.h>
 #include <stdbool.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "../Map/crea_map.h"
 #include "../dijkstra/dijkstra.h"
+#include "../affichage/affichage_fct.h"
+#include "../affichage/init_SDL.h"
+
 
 
 #ifndef __GERE_CHASSEUR__H
