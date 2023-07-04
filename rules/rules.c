@@ -25,11 +25,11 @@ ruleSet_t *generateRuleSet() {
 }
 
 void printRule(rule_t *rule) {
-  printf("Rule:[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule->_case[0],
-         rule->_case[1], rule->_case[2], rule->_case[3],
-         rule->direction_predateur, rule->direction_terrier,
-         rule->distance_predateur, rule->distance_terrier, rule->action,
-         rule->priority);
+  // printf("Rule:[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule->_case[0],
+  //        rule->_case[1], rule->_case[2], rule->_case[3],
+  //        rule->direction_predateur, rule->direction_terrier,
+  //        rule->distance_predateur, rule->distance_terrier, rule->action,
+  //        rule->priority);
 }
 void printRuleSet(ruleSet_t *rules) {
   printf("Rule set:\n");
@@ -52,7 +52,7 @@ void readRulesFromFile(const char *filename, rule_t **rules) {
 
   // Lire les règles à partir du fichier
   int i = 0;
-  while (fscanf(file, "[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n",
+  while ( i<NB_RULES &&fscanf(file, "[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n",
                 &((*rules)[i]._case[0]), &((*rules)[i]._case[1]), &((*rules)[i]._case[2]),
                 &((*rules)[i]._case[3]), (int *)&((*rules)[i].direction_predateur),
                 (int *)&((*rules)[i].direction_terrier),
@@ -62,7 +62,7 @@ void readRulesFromFile(const char *filename, rule_t **rules) {
     i++;
   }
 
-  printf("Read %d rules from the file.\n", i);
+  //printf("Read %d rules from the file.\n", i);
   for (int j = 0; j < i; j++)
   {
     printRule(&(*rules)[j]);
@@ -90,6 +90,5 @@ void writeRulesToFile(rule_t *rules, int size, const char *filename) {
             rule.distance_predateur, rule.distance_terrier, rule.action,
             rule.priority);
   }
-  return rules;
   fclose(file);
 }
