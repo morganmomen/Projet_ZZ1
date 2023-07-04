@@ -5,12 +5,12 @@
 #include <string.h>
 #include <stdbool.h>
 #include "../Map/crea_map.h"
+#include "../dijkstra/dijkstra.h"
 
 
 #ifndef __GERE_CHASSEUR__H
 #define __GERE_CHASSEUR__H
 
-#define Inf 9999999
 
 typedef struct {
     int x;

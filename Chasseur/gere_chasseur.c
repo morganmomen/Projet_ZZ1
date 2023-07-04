@@ -4,31 +4,28 @@
 void apparition_chasseur (int ** map,int taille,position * position_chasseur)
 {
     int placer =0;
-    srand(time(NULL));
-    int proba=40;
-    int p;
-    int i =1;
+    int i=1;
     int j=1;
-    int milieu = (taille+1)/2;
-    while ((i<milieu)&&(placer==0))
+    while (placer==0)
     {
-        while ((j<milieu)&&(placer==0))
+        if (map[i][j]==0)
         {
-            if ((map[i][j]!=1)&&(((map[i-1][j]!=1)||(map[i+1][j]!=1))||((map[i][j+1]!=1)||(map[i][j+1]!=1))))
-            {
-                p=rand()%100;
-                if (p<proba)
-                {
-                    map[i][j]=4;
-                    position_chasseur->x=i;
-                    position_chasseur->y=j;
-                    placer=1;
-                }
-
-            }
+            map[i][j]=4;
+            position_chasseur->x=i;
+            position_chasseur->y=j;
+            placer=1;
+        }
+        if (j==taille)
+        {
             i++;
+            j=1;
+        }
+        else
+        {
             j++;
         }
+        
+        
     }
 }
 
@@ -55,65 +52,44 @@ void chercher_position_lapin (int ** map,int taille, position *  position_lapin)
 
 void deplacement_chasseur (int ** map,int taille, position *  position_chasseur,position *  position_lapin)
 {
-        bool deplacementPossible = false;
+    int depart = (taille+2) * position_chasseur->x + position_chasseur->y;
+    int arriver = (taille+2) * position_lapin->x + position_lapin->y;
+    int * suivant =NULL;
+    suivant= dijkstra (map,depart,arriver,taille+2);
+    
+    int * etat_prochain;
+    int tailleChemin;
+    etat_prochain= obtenirChemin(suivant,arriver,&tailleChemin);
 
-        if (position_chasseur->x < position_lapin->x)
-        {
-            if (map[position_chasseur->x + 1][position_chasseur->y] == 0)
-            {
-                map[position_chasseur->x][position_chasseur->y]=0;
-                position_chasseur++;
-                map[position_chasseur->x][position_chasseur->y]=4;
-                deplacementPossible = true;
-            }
-        }
-        else if (position_chasseur->x > position_lapin->x)
-        {
-            if (map[position_chasseur->x - 1][position_chasseur->y] == 0)
-            {
-                map[position_chasseur->x][position_chasseur->y]=0;
-                position_chasseur--;
-                map[position_chasseur->x][position_chasseur->y]=4;
-                deplacementPossible = true;
-            }
-        }
+    printf ("\n %d \n",etat_prochain[tailleChemin-2]);
+   
+    if (tailleChemin>2)
+    {
+        map[position_chasseur->x ][position_chasseur->y]=0;
+        position_chasseur->x = ceil (etat_prochain[tailleChemin-2]/(taille+2));
+        position_chasseur->y = etat_prochain[tailleChemin-2] - (position_chasseur->x * (taille+2))  ;
+        printf("\n%d %d \n",position_chasseur->x,position_chasseur->y  );
+        map[position_chasseur->x ][position_chasseur->y]=4;
+    }
+    if (tailleChemin==2)
+    {
+        map[position_chasseur->x ][position_chasseur->y]=0;
+        position_chasseur->x = ceil( etat_prochain[1]/(taille+2));
+        position_chasseur->y = etat_prochain[1] - (position_chasseur->x * (taille+2))  ;
+        printf("\n%d %d \n",position_chasseur->x,position_chasseur->y  );
+        map[position_chasseur->x ][position_chasseur->y]=4;
+    }
+    if ((map[1][1]!=2)&&(position_chasseur->x!=1)&&(position_chasseur->y!=1))
+    {
+        map[1][1]=2;
+    }
 
-        if (!deplacementPossible)
-        {
-            if (position_chasseur->y < position_lapin->y && map[position_chasseur->x][position_chasseur->y + 1] == 0)
-            {
-                map[position_chasseur->x][position_chasseur->y]=0;
-                position_chasseur->y++;
-                map[position_chasseur->x][position_chasseur->y]=4;
-                deplacementPossible = true;
-            }
-            else if (position_chasseur->y > position_lapin->y  && map[position_chasseur->x][position_chasseur->y - 1] == 0)
-            {
-                map[position_chasseur->x][position_chasseur->y]=0;
-                position_chasseur->y--;
-                map[position_chasseur->x][position_chasseur->y]=4;
-                deplacementPossible = true;
-            }
-        }
+    free(suivant);
+    free(etat_prochain);
 
-        if (!deplacementPossible)
-        {
-            printf("Le chasseur est bloqué et ne peut pas atteindre la cible.\n");
-            return;
-        }
 
-        for (int i = 1; i < taille+1; i++)
-        {
-            for (int j = 1; j < taille+1; j++)
-            {
-                if (i == position_chasseur->x && j == position_chasseur->y)
-                    printf("C ");
-                else
-                    printf("%d ", map[i][j]);
-            }
-            printf("\n");
-        }
-        printf("\n");
+    
+
 }
 
 
@@ -126,8 +102,9 @@ int chasse (int ** map,int taille,position *  position_chasseur)
     int chasser = 1;
     position * position_terrier=malloc(sizeof(position));
     position_terrier->x=1;
+    afficher_map(map,taille);
     position_terrier->y=1;
-    while (chasser==1)
+    for (int i=0;i<20;i++)
     {    
         chercher_position_lapin(map,taille,position_lapin);
         printf("\n\n");
