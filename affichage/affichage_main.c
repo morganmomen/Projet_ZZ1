@@ -27,7 +27,12 @@ int main(int argc, char const *argv[]) {
     printf("\n");
   }
 
+<<<<<<< HEAD
   affichefond(renderer, window, maze, N);
+=======
+    affichefond(renderer,window,maze,N);
+   
+>>>>>>> corrections
 
   SDL_RenderPresent(renderer);
   SDL_Delay(3000);

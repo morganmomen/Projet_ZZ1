@@ -1,5 +1,15 @@
 #include "affichage_fct.h"
 
+int lapinIndex =0 ;
+SDL_Rect lapin[32];
+SDL_Texture * lapintexture = NULL;
+int offset_x_lapin,offset_y_lapin;
+
+SDL_Rect chasseur[36];
+SDL_Texture * chasseurtexture = NULL;
+int offset_x_chasseur,offset_y_chasseur;
+int chasseurIndex =0;
+
 
  int window_w=-1, window_h=-1;
  SDL_Texture* texture[3] = {NULL,NULL,NULL};
@@ -79,6 +89,7 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
         SDL_GetWindowSize(window, &window_w, &window_h);
 
     }
+    Draw_Lapin(window,renderer,lapin,lapintexture,offset_x_lapin,offset_y_lapin);
     int nb_images_w = 8, nb_images_h=4;
     int zoom =1;
     SDL_Rect destination_lapin={0};
@@ -89,13 +100,13 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
     destination_lapin.y = y;
     destination_lapin.x = x;
   
-    source_lapin.x = lapin[lapinIndex[0]][lapinIndex[1]].x;
-    source_lapin.y = lapin[lapinIndex[0]][lapinIndex[1]].y;
-    source_lapin.w = lapin[lapinIndex[0]][lapinIndex[1]].w;
-    source_lapin.h = lapin[lapinIndex[0]][lapinIndex[1]].h;
+    source_lapin.x = lapin[lapinIndex].x;
+    source_lapin.y = lapin[lapinIndex].y;
+    source_lapin.w = lapin[lapinIndex].w;
+    source_lapin.h = lapin[lapinIndex].h;
 
-    lapinIndex[0] = (lapinIndex[0] + 1) % nb_images_w;
-    SDL_RenderCopy(renderer, lapintexture, &source_chasseur, &destination_chasseur);
+    lapinIndex = (lapinIndex+ 1) % nb_images_w;
+    SDL_RenderCopy(renderer, lapintexture, &source_lapin, &destination_lapin);
     
 
 }
@@ -109,7 +120,7 @@ void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int
         SDL_GetWindowSize(window, &window_w, &window_h);
 
     }
-     
+    Draw_Chasseur(window,renderer,chasseur,chasseurtexture,offset_x_chasseur,offset_y_chasseur);
     SDL_Rect destination_chasseur={0};
     SDL_Rect source_chasseur={0};
     int nb_images_w = 8, nb_images_h=4;
@@ -120,11 +131,11 @@ void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int
     destination_chasseur.y = y;
     destination_chasseur.x = x;
 
-    source_chasseur.x = chasseur[chasseurIndex[0]][chasseurIndex[1]].x;
-    source_chasseur.y = chasseur[chasseurIndex[0]][chasseurIndex[1]].y;
-    source_chasseur.w = chasseur[chasseurIndex[0]][chasseurIndex[1]].w;
-    source_chasseur.h = chasseur[chasseurIndex[0]][chasseurIndex[1]].h;
-    chasseurIndex[0] = (chasseurIndex[0] + 1) % nb_images_w;
+    source_chasseur.x = chasseur[chasseurIndex].x;
+    source_chasseur.y = chasseur[chasseurIndex].y;
+    source_chasseur.w = chasseur[chasseurIndex].w;
+    source_chasseur.h = chasseur[chasseurIndex].h;
+    chasseurIndex = (chasseurIndex + 1) % nb_images_w;
 
     SDL_RenderCopy(renderer, lapintexture, &source_chasseur, &destination_chasseur);
 
