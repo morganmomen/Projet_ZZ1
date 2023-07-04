@@ -1,33 +1,7 @@
 #include "./gere_chasseur.h"
 
 
-void apparition_chasseur (int ** map,int taille,position * position_chasseur)
-{
-    int placer =0;
-    int i=1;
-    int j=1;
-    while (placer==0)
-    {
-        if (map[i][j]==0)
-        {
-            map[i][j]=4;
-            position_chasseur->x=i;
-            position_chasseur->y=j;
-            placer=1;
-        }
-        if (j==taille)
-        {
-            i++;
-            j=1;
-        }
-        else
-        {
-            j++;
-        }
-        
-        
-    }
-}
+
 
 void chercher_position_lapin (int ** map,int taille, position *  position_lapin)
 {
@@ -52,6 +26,7 @@ void chercher_position_lapin (int ** map,int taille, position *  position_lapin)
 
 void deplacement_chasseur (int ** map,int taille, position *  position_chasseur,position *  position_lapin)
 {
+    printf("TAILLE : %d \n",taille);
     int depart = (taille+2) * position_chasseur->x + position_chasseur->y;
     int arriver = (taille+2) * position_lapin->x + position_lapin->y;
     int * suivant =NULL;
@@ -99,6 +74,7 @@ void deplacement_chasseur (int ** map,int taille, position *  position_chasseur,
 
 int chasse (int ** map,int taille,position *  position_chasseur)
 {
+    afficher_map(map,taille+2);
 
     SDL_Window * window = NULL;
     SDL_Renderer * renderer = NULL;
@@ -106,7 +82,7 @@ int chasse (int ** map,int taille,position *  position_chasseur)
 
     affichefond(renderer,window,map,taille+2);
     SDL_RenderPresent(renderer);
-    SDL_Delay(000);
+    SDL_Delay(100);
     
     position * position_lapin = malloc(sizeof(position));
     int chasser = 1;
@@ -114,7 +90,7 @@ int chasse (int ** map,int taille,position *  position_chasseur)
     position_terrier->x=1;
     position_terrier->y=1;
     //while(chasser==1){ 
-    for(int i=0;i<100;i++){  
+    for(int i=0;i<5;i++){  
         chercher_position_lapin(map,taille,position_lapin);
         printf("\n\n");
         deplacement_chasseur (map,taille,position_chasseur,position_lapin);
@@ -131,7 +107,7 @@ int chasse (int ** map,int taille,position *  position_chasseur)
         SDL_RenderClear(renderer);
         affichefond(renderer,window,map,taille+2);
         SDL_RenderPresent(renderer);
-        SDL_Delay(20);
+        SDL_Delay(50);
     }
     printf("FINI\n");
     free(position_terrier);
