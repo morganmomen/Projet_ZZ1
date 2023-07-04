@@ -1,49 +1,56 @@
 #include "choixRules.h"
 
-
-action_t choixRule(rule_t *rule, joueur_t *joueur){
-    int ruleValide[NB_RULES];
-    int nbRuleValide = 0;
-    int nbRuleChoisi = -1;
-    printf("ALED \n");
-    for (int i = 0; i < NB_RULES; i++)
-    {
-        ruleValide[i] = -1;
+action_t choixRule(rule_t *rule, joueur_t *joueur) {
+  int ruleValide[NB_RULES];
+  int nbRuleValide = 0;
+  int nbRuleChoisi = -1;
+  printf("ALED \n");
+  for (int i = 0; i < NB_RULES; i++) {
+    ruleValide[i] = -1;
+  }
+  printf("ALED 2\n");
+  for (int i = 0; i < NB_RULES; i++) {
+    if (isRuleValid(&rule[i], joueur)) {
+      ruleValide[nbRuleValide] = i;
+      nbRuleValide++;
     }
-    printf("ALED 2\n");
+  }
 
-    for(int i = 0; i < NB_RULES; i++){
-        if(isRuleValid(&rule[i], joueur)){
-            ruleValide[nbRuleValide] = i;
-            nbRuleValide++;
-        }
-    }
+  if (nbRuleValide == 0) {
+    return -1;
+  }
 
-    if(nbRuleValide == 0){
-        return -1;
-    }
+  for (int i = 0; i < nbRuleValide; i++) {
+    printf("Rule valide : ");
+    printRule(&rule[ruleValide[i]]);
+  }
+  int s = 1;
+  int S = 0;
+  int tabPondereRule[nbRuleValide];
+  int cumul = 0;
+  for (int i = 0; i < nbRuleValide; i++) {
+    S += pow(rule[ruleValide[i]].priority + 1, s);
+    cumul += pow(rule[ruleValide[i]].priority + 1, s) / S;
+    tabPondereRule[i] = cumul;
+  }
 
-    for(int i = 0; i < nbRuleValide; i++){
-        printf("Rule valide : ");
-        printRule(&rule[ruleValide[i]]);
-    }
+  // int tabPondereRule[nbRulePondere];
+  // int nbRuleDansTab = 0;
+  // for(int i = 0; i < nbRuleValide; i++){
+  //     for(int j = 0; j < rule[ruleValide[i]].priority+1; j++){
+  //         tabPondereRule[nbRuleDansTab] = ruleValide[i];
+  //         nbRuleDansTab++;
+  //     }
+  // }
+  int compteur = 0;
+  int alpha = rand() % RAND_MAX;
+  while (tabPondereRule[compteur] > alpha) {
+    compteur++;
+  }
 
-    int nbRulePondere = 0;
-    for(int i = 0; i < nbRuleValide; i++){
-        nbRulePondere += rule[ruleValide[i]].priority+1;
-    } 
-
-    int tabPondereRule[nbRulePondere];
-    int nbRuleDansTab = 0;
-    for(int i = 0; i < nbRuleValide; i++){
-        for(int j = 0; j < rule[ruleValide[i]].priority+1; j++){
-            tabPondereRule[nbRuleDansTab] = ruleValide[i];
-            nbRuleDansTab++;
-        }
-    } 
-
-    return rule[tabPondereRule[rand() % nbRulePondere]].action;
+  return rule[tabPondereRule[compteur]].action;
 }
+
 
 int isRuleValid(rule_t *rule, joueur_t *joueur){
     int res = 0;
