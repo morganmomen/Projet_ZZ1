@@ -34,6 +34,39 @@ void cherche_chasseur(int **map, int taille, joueur_t *lapin) {
     lapin->distance_predateur = LOIN;
 }
 
+void recherche_terrier(int **map, int taille, joueur_t *lapin) {
+  position *terrier = malloc(sizeof(position));
+  for (int i = 0; i < taille; i++) {
+    for (int j = 0; j < taille; j++) {
+      if (map[i][j] == TERRIER) {
+        terrier->x = i;
+        terrier->y = j;
+      }
+    }
+  }
+  int diff_x = terrier->x - lapin->x;
+  int diff_y = terrier->y - lapin->y;
+  if (abs(diff_x) > abs(diff_y)) {
+    if (diff_x > 0) {
+      lapin->direction_terrier = EST;
+    } else {
+      lapin->direction_terrier = OUEST;
+    }
+  } else {
+    if (diff_y > 0) {
+      lapin->direction_terrier = SUD;
+    } else {
+      lapin->direction_terrier = NORD;
+    }
+  }
+  if (diff_x + diff_y < (int)taille / 3)
+    lapin->distance_terrier = PROCHE;
+  else if (((int)2 * taille) / 3 < diff_x + diff_y < (int)taille / 2)
+    lapin->distance_terrier = MOYEN;
+  else
+    lapin->distance_terrier = LOIN;
+}
+
 void deplacement_lapin(int **map, int taille, ruleSet_t *rules,
                        joueur_t *lapin) {
   action_t action;
@@ -69,6 +102,8 @@ void deplacement_lapin(int **map, int taille, ruleSet_t *rules,
   }
 
   map[lapin->x][lapin->y] = LAPIN;
+  cherche_chasseur(map, taille, lapin);
+  recherche_terrier(map, taille, lapin);
 }
 
 int lapin(int **map, joueur_t *lapin, int taille, ruleSet_t *rules) {
@@ -77,6 +112,7 @@ int lapin(int **map, joueur_t *lapin, int taille, ruleSet_t *rules) {
   initSDL(&window, &renderer);
   while (lapin->x != 2 && lapin->y != 2) {
     deplacement_lapin(map, taille, rules, lapin);
+    afficher_map(map,taille+2);
     SDL_RenderClear(renderer);
     affichefond(renderer, window, map, taille + 2);
     SDL_RenderPresent(renderer);
