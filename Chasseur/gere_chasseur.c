@@ -90,7 +90,7 @@ int chasse (int ** map,int taille,position *  position_chasseur)
     position_terrier->x=1;
     position_terrier->y=1;
     //while(chasser==1){ 
-    for(int i=0;i<5;i++){  
+    for(int i=0;i<50;i++){  
         chercher_position_lapin(map,taille,position_lapin);
         printf("\n\n");
         deplacement_chasseur (map,taille,position_chasseur,position_lapin);
