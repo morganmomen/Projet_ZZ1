@@ -132,4 +132,7 @@ void generateMaze(int** maze,int taille) {
     if(maze[2][1]!=1){
         maze[2][1]=4;
     }
+    else{
+        maze[1][2]=4;
+    }
 }
