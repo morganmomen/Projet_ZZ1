@@ -51,11 +51,11 @@ int lancer_jeu_sans_graphisme_apprentissage_multithreading(int taille, int *nb_i
     return(drapeau_chasse);
     
 }
-void energy_multithreading(int nb_threads, int taille)
+void energy_multithreading(ruleSet_t *attempt_rules,int nb_threads, int taille, int coef_chasseur, int coef_terrier)
 {
     pthread_t threads[nb_threads];
     thread_args_t struct_thread_args;
-    int thread_args[nb_threads];
+    thread_args_t thread_args[nb_threads];
     for(int i = 0; i < nb_threads; i++)
     {
         thread_args[i] = struct_thread_args;
@@ -78,8 +78,9 @@ void energy_multithreading(int nb_threads, int taille)
     }
 
 }
-void *thread_jeu(thread_args_t *struct_thread_args)
+void *thread_jeu(void*arg)
 {
+    thread_args_t *struct_thread_args = (thread_args_t*)arg;
     int nb_iterations=0;
     int tabenergy[100];
     int energy_min = INT_MAX;
@@ -108,6 +109,8 @@ void *thread_jeu(thread_args_t *struct_thread_args)
     }
     struct_thread_args->rules.energy = energy;
 }
+
+
 void shuffle(int *array, int n)
 {
     for (int k = 0; k<n; k++)

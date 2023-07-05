@@ -15,5 +15,5 @@
 
 
 int lancer_jeu_sans_graphisme_apprentissage (int taille, int *nb_iterations,ruleSet_t *rules);
-void energy1(ruleSet_t rules[], int nb_thread, int taille, int coef_chasseur, int coef_terrier);
+void energy1(ruleSet_t rules, int taille, int coef_chasseur, int coef_terrier);
 void shuffle(int *array, int n);

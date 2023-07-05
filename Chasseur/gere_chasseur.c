@@ -145,13 +145,13 @@ int chasse (int ** map,int taille,position *  position_chasseur)
 {
     afficher_map(map,taille+2);
 
-    SDL_Window * window = NULL;
-    SDL_Renderer * renderer = NULL;
-    initSDL(&window,&renderer);
+    // SDL_Window * window = NULL;
+    // SDL_Renderer * renderer = NULL;
+    // initSDL(&window,&renderer);
 
-    affichefond(renderer,window,map,taille+2);
-    SDL_RenderPresent(renderer);
-    //SDL_Delay(1000);
+    // affichefond(renderer,window,map,taille+2);
+    // SDL_RenderPresent(renderer);
+    // SDL_Delay(1000);
     
     position * position_lapin = malloc(sizeof(position));
     int chasser = 1;
@@ -172,15 +172,15 @@ int chasse (int ** map,int taille,position *  position_chasseur)
         }
 
         afficher_map(map,taille+2);
-        SDL_RenderClear(renderer);
-        affichefond(renderer,window,map,taille+2);
-        SDL_RenderPresent(renderer);
-        //SDL_Delay(50);
+        // SDL_RenderClear(renderer);
+        // affichefond(renderer,window,map,taille+2);
+        // SDL_RenderPresent(renderer);
+        // SDL_Delay(50);
     }
     printf("FINI\n");
     free(position_terrier);
     free(position_lapin);
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    // SDL_DestroyRenderer(renderer);
+    // SDL_DestroyWindow(window);
     return(chasser);
 }

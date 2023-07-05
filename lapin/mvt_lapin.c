@@ -107,24 +107,24 @@ void deplacement_lapin(int **map, int taille, ruleSet_t *rules,
   recherche_terrier(map, taille, lapin);
 }
 
-int lapin_main(int **map, joueur_t *lapin, int taille, ruleSet_t *rules) {
-  SDL_Window *window = NULL;
-  SDL_Renderer *renderer = NULL;
-  initSDL(&window, &renderer);
-  int nb_iteration = 0;
-  while (lapin->x != 1 || lapin->y != 1) {
-    printf("Lapin : Je suis en %d %d\n", lapin->x, lapin->y);
-    deplacement_lapin(map, taille, rules, lapin);
-    afficher_map(map, taille + 2);
-    SDL_RenderClear(renderer);
-    affichefond(renderer, window, map, taille + 2);
-    SDL_RenderPresent(renderer);
-    //SDL_Delay(10);
-    nb_iteration ++;
-    printf("Nombre d'itération : %d\n", nb_iteration);
-  }
-  return 0;
-}
+// int lapin_main(int **map, joueur_t *lapin, int taille, ruleSet_t *rules) {
+//   SDL_Window *window = NULL;
+//   SDL_Renderer *renderer = NULL;
+//   initSDL(&window, &renderer);
+//   int nb_iteration = 0;
+//   while (lapin->x != 1 || lapin->y != 1) {
+//     printf("Lapin : Je suis en %d %d\n", lapin->x, lapin->y);
+//     deplacement_lapin(map, taille, rules, lapin);
+//     afficher_map(map, taille + 2);
+//     SDL_RenderClear(renderer);
+//     affichefond(renderer, window, map, taille + 2);
+//     SDL_RenderPresent(renderer);
+//     SDL_Delay(10);
+//     nb_iteration ++;
+//     printf("Nombre d'itération : %d\n", nb_iteration);
+//   }
+//   return 0;
+// }
 
 
 void deplacement_lapin_clavier(int **map, int taille, joueur_t *lapin) {

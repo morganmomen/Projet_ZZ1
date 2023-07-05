@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g -fsanitize=address -pthread
 LDFLAGS =-lSDL2 -lSDL2_image -lm -lSDL2_ttf
 
 # Répertoires
@@ -15,13 +15,13 @@ APPRENTISSAGE_DIR = ./
 #GESTION_JEU_DIR = ../gestion_jeu/
 
 # Fichiers sources
-AFFICHAGE_SOURCES =	$(AFFICHAGE_DIR)affichage_fct.c \
-					$(AFFICHAGE_DIR)ajout_sprite.c \
-					$(AFFICHAGE_DIR)init_SDL.c
+# AFFICHAGE_SOURCES =	$(AFFICHAGE_DIR)affichage_fct.c \
+# 					$(AFFICHAGE_DIR)ajout_sprite.c \
+# 					$(AFFICHAGE_DIR)init_SDL.c
 
-RULES_SOURCE = $(RULES_DIR)rules.c \
-				$(RULES_DIR)choixRules.c\
-				$(RULES_DIR)changeRules.c\
+RULES_SOURCE = $(RULES_DIR)rules.c $(RULES_DIR)changeRules_multithreading.c $(RULES_DIR)choixRules.c
+
+
 
 MAP_SOURCE = $(MAP_DIR)crea_map.c
 
@@ -33,7 +33,11 @@ DIJKSTRA_SOURCE=$(DIJKSTRA_DIR)dijkstra.c
 
 # GESTION_JEU_SOURCE=$(GESTION_JEU_DIR)gestion_jeu.c \
 # 					$(GESTION_JEU_DIR)gestion_jeu_main.c
-APPRENTISSAGE_SOURCE=$(APPRENTISSAGE_DIR)apprentissagev1.c
+# APPRENTISSAGE_SOURCE= $(APPRENTISSAGE_DIR)apprentissagev1.c \
+# 					$(APPRENTISSAGE_DIR)apprentissagev1_main.c \
+# 					$(APPRENTISSAGE_DIR)apprentissage_multitheading.c \
+# 					$(APPRENTISSAGE_DIR)apprentissage_multithreading_main.c
+APPRENTISSAGE_SOURCE= $(APPRENTISSAGE_DIR)apprentissage_multitheading.c $(APPRENTISSAGE_DIR)apprentissage_multithreading_main.c
 
 # Fichiers objets
 OBJDIR = .
