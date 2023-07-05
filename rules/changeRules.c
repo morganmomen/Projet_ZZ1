@@ -287,17 +287,17 @@ void insertRule(ruleSet_t ruleset, ruleSet_t *attempt_ruleset, int parameter,
   default:
     break;
   }
-//   printf("Sortie de changement\n");
+// printf("Sortie de changement\n");
 //   printRuleSet(attempt_ruleset);
 }
-void change_case2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules) {
+void change_case2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille, int coef_chasseur, int coef_terrier),int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[6];
   ruleSet_t tempRuleset;
   for (int i = 0; i < 6; i++) {
     insertRule(ruleset, &tempRuleset, parameter, i - 1, nb_rule);
-    energy(tempRuleset,taille);
+    energy(tempRuleset,taille,0,1);
     if (tempRuleset.energy <= bestEnergy) {
       bestEnergy = tempRuleset.energy;
       bestruleSet = i;
@@ -307,14 +307,14 @@ void change_case2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(rul
   *bestRules=ruleset_attempt[bestruleSet];
 }
 
-void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille), int taille,ruleSet_t* bestRules) {
+void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille, int coef_chasseur, int coef_terrier), int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[5];
   ruleSet_t tempRuleset;
   for (int i = 0; i < 5; i++) {
     insertRule(ruleset, &tempRuleset, parameter, i - 1, nb_rule);
-    energy(tempRuleset,taille);
+    energy(tempRuleset,taille,0,1);
     if (tempRuleset.energy <= bestEnergy) {
       bestEnergy = tempRuleset.energy;
       bestruleSet = i;
@@ -323,14 +323,14 @@ void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter, void ener
   }
   *bestRules=ruleset_attempt[bestruleSet];
 }
-void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules) {
+void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille, int coef_chasseur, int coef_terrier),int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[4];
   ruleSet_t tempRuleset;
   for (int i = 0; i < 4; i++) {
     insertRule(ruleset, &tempRuleset, parameter, i -1,nb_rule);
-    energy(tempRuleset,taille);
+    energy(tempRuleset,taille,0,1);
     if (tempRuleset.energy <= bestEnergy) {
       bestEnergy = tempRuleset.energy;
       bestruleSet = i;
@@ -340,14 +340,14 @@ void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter, void energ
   *bestRules=ruleset_attempt[bestruleSet];
 }
 
-void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules) {
+void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille, int coef_chasseur, int coef_terrier),int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[3];
   ruleSet_t tempRuleset;
   for (int i = 0; i < 3; i++) {
      insertRule(ruleset, &tempRuleset, parameter, i, nb_rule);
-    energy(tempRuleset,taille);
+    energy(tempRuleset,taille,0,1);
     if (tempRuleset.energy <= bestEnergy) {
       bestEnergy = tempRuleset.energy;
       bestruleSet = i;
@@ -357,7 +357,7 @@ void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(
   *bestRules=ruleset_attempt[bestruleSet];
 }
 
-void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules) {
+void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille, int coef_chasseur, int coef_terrier),int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[3];
@@ -365,7 +365,7 @@ void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter, void energ
   for (int i = 1; i < 4; i++) {
     insertRule(ruleset, &tempRuleset, parameter, i, nb_rule);
 
-    energy(tempRuleset,taille);
+    energy(tempRuleset,taille,0,1);
     if (tempRuleset.energy <= bestEnergy) {
       bestEnergy = tempRuleset.energy;
       bestruleSet = i;
@@ -374,10 +374,11 @@ void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter, void energ
   }
   *bestRules=ruleset_attempt[bestruleSet-1];
 }
-void changeRule2(ruleSet_t *rules,int taille,void energy(ruleSet_t rules,int taille), ruleSet_t * bestRules) {
-  int nb_rule = choose_rule();
-  int parameter = choose_parameter();
+void changeRule2(ruleSet_t *rules,int taille,void energy(ruleSet_t rules,int taille, int coef_chasseur, int coef_terrier), ruleSet_t * bestRules, int nb_rule, int parameter) {
+    printf("nb_rule : %d\n",nb_rule );
+    printf("parameter : %d\n",parameter );
   switch (parameter) {
+
   case 0:
     change_case2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
@@ -411,6 +412,4 @@ void changeRule2(ruleSet_t *rules,int taille,void energy(ruleSet_t rules,int tai
   default:
     break;
   }
-    // printf("ALED2\n");
-    // printRuleSet(bestRules);
 }

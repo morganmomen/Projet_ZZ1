@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -g
+CFLAGS = -Wall -Wextra
 LDFLAGS =-lSDL2 -lSDL2_image -lm -lSDL2_ttf
 
 # Répertoires

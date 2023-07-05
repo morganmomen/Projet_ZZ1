@@ -1,6 +1,7 @@
 #include "apprentissagev1.h"
+#include "apprentissage_multithreading.h"
 
-int lancer_jeu_sans_graphisme_apprentissage (int taille, int *nb_iterations,ruleSet_t *rules)
+int lancer_jeu_sans_graphisme_apprentissage_multithreading(int taille, int *nb_iterations,ruleSet_t *rules)
 {
     int ** map = NULL;
     map = init_map(taille+2);
@@ -50,8 +51,34 @@ int lancer_jeu_sans_graphisme_apprentissage (int taille, int *nb_iterations,rule
     return(drapeau_chasse);
     
 }
+void energy_multithreading(int nb_threads, int taille)
+{
+    pthread_t threads[nb_threads];
+    thread_args_t struct_thread_args;
+    int thread_args[nb_threads];
+    for(int i = 0; i < nb_threads; i++)
+    {
+        thread_args[i] = struct_thread_args;
+    }   
 
-void energy1(ruleSet_t rules, int taille, int coef_chasseur, int coef_terrier)
+    for(int i = 0; i < nb_threads; i++)
+    {
+        if (pthread_create(&threads[i], NULL, thread_jeu, &thread_args[i]) != 0) {
+            fprintf(stderr, "Error creating thread %d\n", i);
+            exit(1);
+        }
+    }
+
+    for(int i = 0; i < nb_threads; i++)
+    {
+        if (pthread_join(threads[i], NULL) != 0) {
+            fprintf(stderr, "Error joining thread %d\n", i);
+            exit(1);
+        }
+    }
+
+}
+void *thread_jeu(thread_args_t *struct_thread_args)
 {
     int nb_iterations=0;
     int tabenergy[100];
@@ -61,14 +88,14 @@ void energy1(ruleSet_t rules, int taille, int coef_chasseur, int coef_terrier)
     int energy =0;
     for (int i=0;i<100;i++)
     {
-    drapeau_chasseur = lancer_jeu_sans_graphisme_apprentissage(taille, &nb_iterations, &rules);
+    drapeau_chasseur = lancer_jeu_sans_graphisme_apprentissage_multithreading(struct_thread_args->taille, &nb_iterations, &(struct_thread_args->rules));
     if (drapeau_chasseur == 0)
     {
-        tabenergy[i] = INT_MAX * coef_chasseur;
+        tabenergy[i] = INT_MAX * struct_thread_args->coef_chasseur;
     }
     else if (drapeau_chasseur == 2)
     {
-        tabenergy[i] = nb_iterations * coef_terrier;
+        tabenergy[i] = nb_iterations * struct_thread_args->coef_terrier;
     }
     if (tabenergy[i] < energy_min) energy_min = tabenergy[i];
     if (tabenergy[i] > energy_max) energy_max = tabenergy[i];
@@ -79,7 +106,7 @@ void energy1(ruleSet_t rules, int taille, int coef_chasseur, int coef_terrier)
         tabenergy[j] = (tabenergy[j] - energy_min)/ (energy_max - energy_min);
         energy = energy + tabenergy[j]/100;
     }
-    rules.energy = energy;
+    struct_thread_args->rules.energy = energy;
 }
 void shuffle(int *array, int n)
 {
@@ -91,34 +118,4 @@ void shuffle(int *array, int n)
     array[i] = array[j];
     array[j] = temp;
     }
-}
- int main()
-{
-    srand(time(NULL)*rand());
-    int nb_iterations;
-    int taille = 15;
-    ruleSet_t rules;
-    rules.rules = malloc(sizeof(rule_t) * NB_RULES);
-    ruleSet_t bestRules;
-    readRulesFromFile("../initRegle.txt", &(rules.rules));
-    rules.energy = INT_MAX;
-    int nombre_lancer = 240;
-    int rule_and_parameter[240];
-    for (int i = 0; i < 240; i++) rule_and_parameter[i] = i;
-    shuffle(rule_and_parameter,240);
-    int chosen_rule_and_parameter;
-    for (int i = 0; i < nombre_lancer; i++)
-    {
-        // printf("Etape %d\n", i);
-        // printRuleSet(&rules);
-        chosen_rule_and_parameter = rule_and_parameter[i];
-        int nbrule = ceil(chosen_rule_and_parameter / 10);
-        int parameter =(chosen_rule_and_parameter % 10);
-        changeRule2(&rules,taille,energy1,&bestRules,nbrule,parameter);
-        copyRuleSet(bestRules, &rules);
-        printf("Progression de l'apprentissage : %d%%\n", (i * 100) / nombre_lancer);
-    }
-    printf("Energy : %d\n",rules.energy);
-    writeRulesToFile(rules.rules,NB_RULES, "../input_regles.txt");
-    return 0;
 }
