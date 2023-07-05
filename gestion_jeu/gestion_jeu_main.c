@@ -6,14 +6,14 @@ int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-    int taille = 20;
+    int taille = 17;
     printf("Bienvenue dans le jeu du chasseur et du lapin\n");
-    int nbLancer = 50;
+    int nbLancer = 1;
     int resultat[nbLancer];
     int nb_iterations[nbLancer];
     for(int i = 0; i < nbLancer; i++)
     {
-        resultat[i] = lancer_jeu_sans_graphisme(taille, &nb_iterations[i]);
+        resultat[i] = lancer_jeu_avec_graphisme(taille, &nb_iterations[i]);
         printf("Iteration %d\n", i);
     }
 
