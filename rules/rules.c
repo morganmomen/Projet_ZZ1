@@ -79,9 +79,6 @@ void writeRulesToFile(rule_t *rules, int size, const char *filename) {
     return;
   }
 
-  fprintf(file, "%d\n",
-          size); // Écrire le nombre de règles en premier paramètre
-
   for (int i = 0; i < size; i++) {
     rule_t rule = rules[i];
     fprintf(file, "[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule._case[0],

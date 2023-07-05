@@ -28,6 +28,7 @@ int lancer_jeu_sans_graphisme (int taille, int *nb_iterations)
     ruleSet_t *rules = malloc(sizeof(ruleSet_t));
     rules->rules = malloc(sizeof(rule_t) * NB_RULES);
     readRulesFromFile("../initRegle.txt", &(rules->rules));
+
     rules->energy = INT_MAX;
 
     position position_terrier;

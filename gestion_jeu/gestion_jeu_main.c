@@ -3,13 +3,13 @@
 
 void* thread_jeu(void*arg){
     int taille =  *((int*)arg);
-    int nbLancer = 50;
+    int nbLancer = 500;
     int resultat[nbLancer];
     int nb_iterations[nbLancer];
     for(int i = 0; i < nbLancer; i++)
     {
         resultat[i] = lancer_jeu_sans_graphisme(taille, &nb_iterations[i]);
-        printf("Iteration %d\n", i);
+        //printf("Iteration %d\n", i);
     }
 
     int nb_victoire_chasseur = 0;
@@ -90,29 +90,31 @@ int main(int argc, char **argv)
     // return 0;
 
     /*THREAD*/
-    int nbThread = 8;
-    pthread_t threads[nbThread];
-    int thread_args[nbThread];
-    for(int i = 0; i < nbThread; i++)
-    {
-        thread_args[i] = taille;
-    }   
+    // int nbThread = 1;
+    // pthread_t threads[nbThread];
+    // int thread_args[nbThread];
+    // for(int i = 0; i < nbThread; i++)
+    // {
+    //     thread_args[i] = taille;
+    // }   
 
-    for(int i = 0; i < nbThread; i++)
-    {
-        if (pthread_create(&threads[i], NULL, thread_jeu, &thread_args[i]) != 0) {
-            fprintf(stderr, "Error creating thread %d\n", i);
-            exit(1);
-        }
-    }
+    // for(int i = 0; i < nbThread; i++)
+    // {
+    //     if (pthread_create(&threads[i], NULL, thread_jeu, &thread_args[i]) != 0) {
+    //         fprintf(stderr, "Error creating thread %d\n", i);
+    //         exit(1);
+    //     }
+    // }
 
-    for(int i = 0; i < nbThread; i++)
-    {
-        if (pthread_join(threads[i], NULL) != 0) {
-            fprintf(stderr, "Error joining thread %d\n", i);
-            exit(1);
-        }
-    }
+    // for(int i = 0; i < nbThread; i++)
+    // {
+    //     if (pthread_join(threads[i], NULL) != 0) {
+    //         fprintf(stderr, "Error joining thread %d\n", i);
+    //         exit(1);
+    //     }
+    // }
+
+    thread_jeu(&taille);
 
     // if (pthread_create(&threads[0], NULL, thread_jeu, &thread_args[0]) != 0) {
     //     fprintf(stderr, "Error creating thread %d\n", 0);

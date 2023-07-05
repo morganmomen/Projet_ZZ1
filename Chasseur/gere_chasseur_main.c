@@ -5,7 +5,7 @@ int main(int argc, char **argv)
     (void)argc;
     (void)argv;
 
-    int taille = 12;
+    int taille = 15;
 
    // map = crea_map (taille,nombre_obstacle);
    
