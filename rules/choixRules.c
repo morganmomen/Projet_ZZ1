@@ -7,7 +7,6 @@ action_t choixRule(ruleSet_t *rules, joueur_t *joueur) {
   for (int i = 0; i < NB_RULES; i++) {
     ruleValide[i] = -1;
   }
-  printf("ALED 2\n");
   for (int i = 0; i < NB_RULES; i++) {
     if (isRuleValid(&(rules->rules[i]), joueur)) {
       ruleValide[nbRuleValide] = i;
@@ -19,10 +18,10 @@ action_t choixRule(ruleSet_t *rules, joueur_t *joueur) {
     return -1;
   }
 
-  for (int i = 0; i < nbRuleValide; i++) {
-    printf("Rule valide : ");
-    printRule(&(rules->rules[ruleValide[i]]));
-  }
+  // for (int i = 0; i < nbRuleValide; i++) {
+  //   // printf("Rule valide : ");
+  //   // printRule(&(rules->rules[ruleValide[i]]));
+  // }
   int s = 1;
   int S = 0;
   float tabPondereRule[nbRuleValide];
@@ -31,11 +30,11 @@ action_t choixRule(ruleSet_t *rules, joueur_t *joueur) {
     S += pow(rules->rules[ruleValide[i]].priority + 1, s);
   }
   for (int k = 0; k < nbRuleValide; k++) {
-    printf("puissance %f",
-           pow(rules->rules[ruleValide[k]].priority + 1, s) / S);
+    // printf("puissance %f",
+    //        pow(rules->rules[ruleValide[k]].priority + 1, s) / S);
     
     cumul += pow(rules->rules[ruleValide[k]].priority + 1, s) / S;
-    printf("cumul %f", cumul);
+    //printf("cumul %f", cumul);
     tabPondereRule[k] = cumul;
   }
 
@@ -48,12 +47,12 @@ action_t choixRule(ruleSet_t *rules, joueur_t *joueur) {
   //     }
   // }
   
-  for (int i = 0; i < nbRuleValide; i++) {
-    printf("tabPondereRule[%d] = %f\n", i, tabPondereRule[i]);
-  }
+  // for (int i = 0; i < nbRuleValide; i++) {
+  //   printf("tabPondereRule[%d] = %f\n", i, tabPondereRule[i]);
+  // }
 
   float alpha = (rand() % 100) *0.01;
-  printf("alpha = %f\n", alpha);
+  //printf("alpha = %f\n", alpha);
   int compteur = 0;
   while (alpha > tabPondereRule[compteur])
   {

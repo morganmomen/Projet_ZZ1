@@ -107,6 +107,5 @@ int * dijkstra(int ** graphe, int depart, int arrivee, int taille) {
       parent[ligne * taille + colonne + 1] = u;
     }
   }
-  afficherChemin(parent,arrivee);
   return (parent);
 }

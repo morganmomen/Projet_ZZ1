@@ -134,14 +134,10 @@ position *generateMaze(int **maze, int taille) {
     depart = (taille)*position_chasseur->x + position_chasseur->y;
     arriver = (taille)*position_lapin->x + position_lapin->y;
 
-    printf("taille : %d\n", taille);
-
     suivant = dijkstra(maze, depart, arriver, taille);
 
     etat_prochain = obtenirChemin(suivant, arriver, &tailleChemin);
 
-    printf("taille chemin debut : %d\n", tailleChemin);
-    printf("etat prochain : %d\n", *etat_prochain);
   }
 
 

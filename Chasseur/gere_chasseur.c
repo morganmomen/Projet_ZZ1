@@ -55,11 +55,6 @@ void deplacementaleatoire (int ** map, position *  position_chasseur)
     {
         p=rand()%count;
         prochain_etat = deplacement[p];
-        for (int i=0;i<count;i++)
-        {
-            printf("%d ",deplacement[i]);
-        }
-        printf("\n Choix :%d \n",prochain_etat);
     }
     else
     {
@@ -88,7 +83,6 @@ void deplacementaleatoire (int ** map, position *  position_chasseur)
 
 int deplacement_chasseur (int ** map,int taille, position *  position_chasseur,position *  position_lapin)
 {
-    printf("TAILLE : %d \n",taille);
     int depart = (taille+2) * position_chasseur->x + position_chasseur->y;
     int arriver = (taille+2) * position_lapin->x + position_lapin->y;
     int * suivant =NULL;
@@ -99,7 +93,7 @@ int deplacement_chasseur (int ** map,int taille, position *  position_chasseur,p
     int tailleChemin;
     etat_prochain= obtenirChemin(suivant,arriver,&tailleChemin);
 
-    if (tailleChemin >10)
+    if (tailleChemin >(taille/2))
     {
         map[position_chasseur->x ][position_chasseur->y]=0;
         deplacementaleatoire(map,position_chasseur);

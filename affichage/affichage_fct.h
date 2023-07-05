@@ -9,6 +9,10 @@
 #include "init_SDL.h"
 #include "ajout_sprite.h"
 
+#ifndef __AFFICHAGE_FCT__H
+#define __AFFICHAGE_FCT__H
+
+
 typedef struct 
 {
     int orientation_precedente;
@@ -23,3 +27,4 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
 void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y, int offsetX,int offsetY);
 int deplacement_orientation (mouvement * ancien,int x_nouvelle, int  y_nouvelle );
 
+#endif
