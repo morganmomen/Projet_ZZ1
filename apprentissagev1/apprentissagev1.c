@@ -66,18 +66,33 @@ int lancer_jeu_sans_graphisme_apprentissage (int taille, int *nb_iterations,rule
 void energy1(ruleSet_t rules, int taille)
 {
     int nb_iterations=0;
-    int energy = 0;
-    int drapeau_chasseur = lancer_jeu_sans_graphisme_apprentissage(taille, &nb_iterations, &rules);
+    int tabenergy[100];
+    int energy_min = INT_MAX;
+    int energy_max = 0;
+    int drapeau_chasseur;
+    int energy =0;
+    for (int i=0;i<100;i++)
+    {
+    drapeau_chasseur = lancer_jeu_sans_graphisme_apprentissage(taille, &nb_iterations, &rules);
     if (drapeau_chasseur == 0)
     {
-        energy = INT_MAX;
+        tabenergy[i] = INT_MAX;
     }
     else if (drapeau_chasseur == 2)
     {
-        energy = nb_iterations/2;
+        tabenergy[i] = nb_iterations;
+    }
+    if (tabenergy[i] < energy_min) energy_min = tabenergy[i];
+    if (tabenergy[i] > energy_max) energy_max = tabenergy[i];
+    }
+    for (int j =0; j<100; j++)
+    {
+        tabenergy[j] = (tabenergy[j] - energy_min)/ (energy_max - energy_min);
+        energy = energy + tabenergy[j]/100;
     }
     rules.energy = energy;
 }
+
  int main()
 {
     int nb_iterations;
@@ -97,6 +112,6 @@ void energy1(ruleSet_t rules, int taille)
         printf("Progression de l'apprentissage : %d%%\n", (i * 100) / nombre_lancer);
     }
     printf("Energy : %d\n",rules.energy);
-    writeRulesToFile(rules.rules,NB_RULES, "../regle_final.txt");
+    writeRulesToFile(rules.rules,NB_RULES, "../input_regles.txt");
     return 0;
 }
