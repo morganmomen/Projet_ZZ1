@@ -22,6 +22,7 @@ void afficher_map (int ** map,int taille);
 void liberer_map (int ** map, int taille);
 position* generateMaze(int** maze, int taille);
 void apparition_chasseur (int ** map,int taille,position * position_chasseur);
+void generateMaze_2chasseurs(int **maze, int taille, position * position_chasseur1,  position * position_chasseur2);
 
 
 
