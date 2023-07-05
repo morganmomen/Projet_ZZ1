@@ -5,6 +5,7 @@
 #include <string.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <pthread.h>
 #include "../Map/crea_map.h"
 #include "../dijkstra/dijkstra.h"
 #include "../affichage/affichage_fct.h"

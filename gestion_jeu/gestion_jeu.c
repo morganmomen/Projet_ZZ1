@@ -8,21 +8,21 @@ int lancer_jeu_sans_graphisme (int taille, int *nb_iterations)
     map = init_map(taille+2);
     position * position_chasseur = generateMaze(map, taille+2);
 
-    joueur_t lapin;
-    lapin.x = taille;
-    lapin.y = taille;
-    lapin.devant = map[lapin.x][lapin.y - 1];
-    lapin.derriere = map[lapin.x][lapin.y + 1];
-    lapin.gauche = map[lapin.x - 1][lapin.y];
-    lapin.droite = map[lapin.x + 1][lapin.y];
-    lapin.direction_predateur = NORD;
-    lapin.direction_terrier = NORD;
-    lapin.distance_predateur = LOIN;
-    lapin.distance_terrier = LOIN;
+    joueur_t jlapin;
+    jlapin.x = taille;
+    jlapin.y = taille;
+    jlapin.devant = map[jlapin.x][jlapin.y - 1];
+    jlapin.derriere = map[jlapin.x][jlapin.y + 1];
+    jlapin.gauche = map[jlapin.x - 1][jlapin.y];
+    jlapin.droite = map[jlapin.x + 1][jlapin.y];
+    jlapin.direction_predateur = NORD;
+    jlapin.direction_terrier = NORD;
+    jlapin.distance_predateur = LOIN;
+    jlapin.distance_terrier = LOIN;
 
     position position_lapin;
-    position_lapin.x = lapin.x;
-        position_lapin.y = lapin.y;
+    position_lapin.x = jlapin.x;
+    position_lapin.y = jlapin.y;
     
 
     ruleSet_t *rules = malloc(sizeof(ruleSet_t));
@@ -39,14 +39,14 @@ int lancer_jeu_sans_graphisme (int taille, int *nb_iterations)
     while (drapeau_chasse == 1)
     {
         *nb_iterations = *nb_iterations + 1;
-        deplacement_lapin(map,taille,rules,&lapin);
-        position_lapin.x = lapin.x;
-        position_lapin.y = lapin.y;
+        deplacement_lapin(map,taille,rules,&jlapin);
+        position_lapin.x = jlapin.x;
+        position_lapin.y = jlapin.y;
         if (deplacement_chasseur (map,taille,position_chasseur,&position_lapin)==1)
         {
             drapeau_chasse = 0;
         }
-        if ((position_terrier.x==lapin.x)&&(position_terrier.y==lapin.y))
+        if ((position_terrier.x==jlapin.x)&&(position_terrier.y==jlapin.y))
         {
             drapeau_chasse = 2;
         }
@@ -55,6 +55,8 @@ int lancer_jeu_sans_graphisme (int taille, int *nb_iterations)
 
     liberer_map(map,taille);
     free(position_chasseur);
+    free(rules->rules);
+    free(rules);
 
     return(drapeau_chasse);
 
@@ -77,21 +79,22 @@ int lancer_jeu_avec_graphisme (int taille, int *nb_iterations)
     SDL_RenderPresent(renderer);
     SDL_Delay(1000);
 
-    joueur_t lapin;
-    lapin.x = taille;
-    lapin.y = taille;
-    lapin.devant = map[lapin.x][lapin.y - 1];
-    lapin.derriere = map[lapin.x][lapin.y + 1];
-    lapin.gauche = map[lapin.x - 1][lapin.y];
-    lapin.droite = map[lapin.x + 1][lapin.y];
-    lapin.direction_predateur = NORD;
-    lapin.direction_terrier = NORD;
-    lapin.distance_predateur = LOIN;
-    lapin.distance_terrier = LOIN;
+    joueur_t jlapin;
+    jlapin.x = taille;
+    jlapin.y = taille;
+    jlapin.devant = map[jlapin.x][jlapin.y - 1];
+    jlapin.derriere = map[jlapin.x][jlapin.y + 1];
+    jlapin.gauche = map[jlapin.x - 1][jlapin.y];
+    jlapin.droite = map[jlapin.x + 1][jlapin.y];
+    jlapin.direction_predateur = NORD;
+    jlapin.direction_terrier = NORD;
+    jlapin.distance_predateur = LOIN;
+    jlapin.distance_terrier = LOIN;
 
     position position_lapin;
-    position_lapin.x = lapin.x;
-        position_lapin.y = lapin.y;
+    position_lapin.x = jlapin.x;
+    position_lapin.y = jlapin.y;
+    
     
 
     ruleSet_t *rules = malloc(sizeof(ruleSet_t));
@@ -108,14 +111,14 @@ int lancer_jeu_avec_graphisme (int taille, int *nb_iterations)
     while (drapeau_chasse == 1)
     {
         *nb_iterations = *nb_iterations + 1;
-        deplacement_lapin(map,taille,rules,&lapin);
-        position_lapin.x = lapin.x;
-        position_lapin.y = lapin.y;
+        deplacement_lapin(map,taille,rules,&jlapin);
+        position_lapin.x = jlapin.x;
+        position_lapin.y = jlapin.y;
         if (deplacement_chasseur (map,taille,position_chasseur,&position_lapin)==1)
         {
             drapeau_chasse = 0;
         }
-        if ((position_terrier.x==lapin.x)&&(position_terrier.y==lapin.y))
+        if ((position_terrier.x==jlapin.x)&&(position_terrier.y==jlapin.y))
         {
             drapeau_chasse = 2;
         }
@@ -130,6 +133,8 @@ int lancer_jeu_avec_graphisme (int taille, int *nb_iterations)
     free(position_chasseur);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    free(rules->rules);
+    free(rules);
 
     return(drapeau_chasse);
 

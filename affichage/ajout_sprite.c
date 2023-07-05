@@ -3,16 +3,17 @@
 
 void Draw_Lapin(SDL_Window * window,SDL_Renderer * renderer,SDL_Rect * lapin,SDL_Texture ** lapintexture,int* offset_x_lapin,int* offset_y_lapin)
 {
-    int window_w, window_h ;
+    int window_w, window_h;
     SDL_GetWindowSize(window, &window_w, &window_h);
     SDL_Rect source={0};
+
 
     if(*lapintexture == NULL)*lapintexture = loadTexture("../img/lapin.png", renderer);
     SDL_QueryTexture(*lapintexture,NULL, NULL,&source.w, &source.h);
     int nb_images_w = 8, nb_images_h=4;
 
 
-    *offset_x_lapin= 40;
+    *offset_x_lapin= source.w/nb_images_w;
     *offset_y_lapin = 40;
 
     for(int j=0; j<nb_images_h; j++)

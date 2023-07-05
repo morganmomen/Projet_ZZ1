@@ -1,14 +1,17 @@
 #include "affichage_fct.h"
 
-int lapinIndex =0;
-SDL_Rect lapin[32];
+
+SDL_Rect lapintab[32];
 SDL_Texture * lapintexture = NULL;
 int offset_x_lapin,offset_y_lapin;
+int lapinIndex =0;
+int lapinload = 0;
 
 SDL_Rect chasseur[36];
 SDL_Texture * chasseurtexture = NULL;
 int offset_x_chasseur,offset_y_chasseur;
 int chasseurIndex =0;
+chasseurload = 0;
 
 
 int window_w=-1, window_h=-1;
@@ -21,7 +24,7 @@ mouvement  chasseur_struct = {0,-1,-1};
 
 void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map, int taille)
 {
- 
+
     if(N==-1){
         N = taille;
     }
@@ -38,8 +41,7 @@ void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map, int tai
 
     int offsetX =   window_w /(N);
     int offsetY = window_h/(N);
-    printf("offsetX = %d\n",offsetX);
-    printf("offsetY = %d\n",offsetY);
+
 
     if(texture[0] == NULL||texture[1] == NULL||texture[2] == NULL){
         texture[0] = loadTexture("../img/gazon.png", renderer);
@@ -48,7 +50,7 @@ void affichefond(SDL_Renderer * renderer,SDL_Window * window ,int** map, int tai
     }
 
     SDL_RenderClear(renderer);
-
+    int cpt =0;
     for(int i =0; i<N; i++){
         for(int j =0; j<N; j++){
             if(map[i][j]==1){
@@ -93,8 +95,10 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
 
     }
     
-
-    Draw_Lapin(window,renderer,lapin,&lapintexture,&offset_x_lapin,&offset_y_lapin);
+    if(lapinload == 0) {
+        Draw_Lapin(window,renderer,lapintab,&lapintexture,&offset_x_lapin,&offset_y_lapin);
+        lapinload = 1;
+    }
     if(lapintexture == NULL) printf("PAS DE TEXTURE \n");
     int nb_images_w = 8, nb_images_h=4;
 
@@ -117,15 +121,15 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
         
     }
   
-    source_lapin.x = lapin[lapinIndex].x;
-    source_lapin.y = lapin[lapinIndex].y;
-    source_lapin.w = lapin[lapinIndex].w;
-    source_lapin.h = lapin[lapinIndex].h;
+    source_lapin.x = lapintab[lapinIndex].x;
+    source_lapin.y = lapintab[lapinIndex].y;
+    source_lapin.w = lapintab[lapinIndex].w;
+    source_lapin.h = lapintab[lapinIndex].h;
 
     
     
     SDL_RenderCopy(renderer, lapintexture,&source_lapin, &destination_lapin);
-    SDL_Delay(100);
+    SDL_Delay(50);
 }
 
 void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y, int offsetX,int offsetY)
@@ -137,7 +141,11 @@ void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int
         SDL_GetWindowSize(window, &window_w, &window_h);
 
     }
-    Draw_Chasseur(window,renderer,chasseur,&chasseurtexture,&offset_x_chasseur,&offset_y_chasseur);
+    if(chasseurload == 0) {
+        Draw_Chasseur(window,renderer,chasseur,&chasseurtexture,&offset_x_chasseur,&offset_y_chasseur);
+        chasseurload = 1;
+    }
+
     SDL_Rect destination_chasseur={0};
     SDL_Rect source_chasseur={0};
     int nb_images_w = 9, nb_images_h=4;

@@ -1,7 +1,7 @@
 # Variables
 CC = gcc
 CFLAGS = -Wall -Wextra -pedantic -g
-LDFLAGS =-lSDL2 -lSDL2_image -lm -lSDL2_ttf
+LDFLAGS =-lSDL2 -lSDL2_image -lm -lSDL2_ttf -lpthread
 
 # Répertoires
 AFFICHAGE_DIR = ../affichage/
