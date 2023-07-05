@@ -45,7 +45,7 @@ int main(int argc, char **argv)
 
     /*SANS GRAPHISME*/
     // printf("Bienvenue dans le jeu du chasseur et du lapin\n");
-    // int nbLancer = 50;
+    // int nbLancer = 500;
     // int resultat[nbLancer];
     // int nb_iterations[nbLancer];
     // for(int i = 0; i < nbLancer; i++)
@@ -75,19 +75,19 @@ int main(int argc, char **argv)
     // printf("Le nombre moyen d'itérations est de %d\n", nb_iterations_total/nbLancer);
 
     /*AVEC GRAPHISME*/
-    // int nbiterations;
-    // int resultat = lancer_jeu_avec_graphisme(taille, &nbiterations);
-    // if(resultat == 0)
-    // {
-    //     printf("Le chasseur a gagné\n");
-    // }
-    // else
-    // {
-    //     printf("Le lapin a gagné\n");
-    // }
+    int nbiterations;
+    int resultat = lancer_jeu_avec_graphisme(taille, &nbiterations);
+    if(resultat == 0)
+    {
+        printf("Le chasseur a gagné\n");
+    }
+    else
+    {
+        printf("Le lapin a gagné\n");
+    }
     
-    // printf("Le nombre d'itérations est de %d\n", nbiterations);
-    // return 0;
+    printf("Le nombre d'itérations est de %d\n", nbiterations);
+    return 0;
 
     /*THREAD*/
     // int nbThread = 1;
@@ -114,7 +114,7 @@ int main(int argc, char **argv)
     //     }
     // }
 
-    thread_jeu(&taille);
+    //thread_jeu(&taille);
 
     // if (pthread_create(&threads[0], NULL, thread_jeu, &thread_args[0]) != 0) {
     //     fprintf(stderr, "Error creating thread %d\n", 0);

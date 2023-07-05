@@ -129,6 +129,7 @@ int deplacement_chasseur (int ** map,int taille, position *  position_chasseur,p
     {
         map[1][1]=2;
     }
+    //afficher_map(map,taille+2);
 
     free(suivant);
     free(etat_prochain);

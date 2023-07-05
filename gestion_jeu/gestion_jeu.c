@@ -126,7 +126,7 @@ int lancer_jeu_avec_graphisme (int taille, int *nb_iterations)
         SDL_RenderClear(renderer);
         affichefond(renderer,window,map,taille+2);
         SDL_RenderPresent(renderer);
-        SDL_Delay(50);
+        SDL_Delay(1);
 
     }
 

@@ -19,17 +19,21 @@ void generateRule(rule_t *rule) {
 
 ruleSet_t *generateRuleSet() {
   ruleSet_t *rules = (ruleSet_t *)malloc(sizeof(ruleSet_t));
+  rules->rules = (rule_t *)malloc(NB_RULES * sizeof(rule_t));
   for (int i = 0; i < NB_RULES; i++)
+  {
+    //printf("i=%d\n",i);
     generateRule(&(rules->rules[i]));
+  }
   return rules;
 }
 
 void printRule(rule_t *rule) {
-  // printf("Rule:[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule->_case[0],
-  //        rule->_case[1], rule->_case[2], rule->_case[3],
-  //        rule->direction_predateur, rule->direction_terrier,
-  //        rule->distance_predateur, rule->distance_terrier, rule->action,
-  //        rule->priority);
+  printf("Rule:[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule->_case[0],
+         rule->_case[1], rule->_case[2], rule->_case[3],
+         rule->direction_predateur, rule->direction_terrier,
+         rule->distance_predateur, rule->distance_terrier, rule->action,
+         rule->priority);
 }
 void printRuleSet(ruleSet_t *rules) {
   printf("Rule set:\n");
@@ -63,10 +67,10 @@ void readRulesFromFile(const char *filename, rule_t **rules) {
   }
 
   //printf("Read %d rules from the file.\n", i);
-  for (int j = 0; j < i; j++)
-  {
-    printRule(&(*rules)[j]);
-  }
+  // for (int j = 0; j < i; j++)
+  // {
+  //   printRule(&(*rules)[j]);
+  // }
   
 
   fclose(file);

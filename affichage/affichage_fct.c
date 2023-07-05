@@ -11,7 +11,7 @@ SDL_Rect chasseur[36];
 SDL_Texture * chasseurtexture = NULL;
 int offset_x_chasseur,offset_y_chasseur;
 int chasseurIndex =0;
-chasseurload = 0;
+int chasseurload = 0;
 
 
 int window_w=-1, window_h=-1;
