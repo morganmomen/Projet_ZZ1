@@ -45,11 +45,11 @@ ruleSet_t *generateRuleSet() {
 }
 
 void printRule(rule_t *rule) {
-  printf("Rule:[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule->_case[0],
-         rule->_case[1], rule->_case[2], rule->_case[3],
-         rule->direction_predateur, rule->direction_terrier,
-         rule->distance_predateur, rule->distance_terrier, rule->action,
-         rule->priority);
+ printf("Rule:[%d,%d,%d,%d,%d,%d,%d,%d] => %d (%d)\n", rule->_case[0],
+        rule->_case[1], rule->_case[2], rule->_case[3],
+        rule->direction_predateur, rule->direction_terrier,
+        rule->distance_predateur, rule->distance_terrier, rule->action,
+        rule->priority);
 }
 void printRuleSet(ruleSet_t *rules) {
   printf("Rule set:\n");

@@ -65,11 +65,11 @@ ruleSet_t *changeRuleSet(ruleSet_t *rules);
 
 int choose_rule();
 int choose_parameter();
-void insertRule(ruleSet_t ruleset, ruleSet_t ruleset_attempt[], int parameter,
+void insertRule(ruleSet_t ruleset,ruleSet_t * tempruleset, int parameter,
                 int possibility, int nb_rule);
-ruleSet_t change_case2(ruleSet_t ruleset, int nb_rule, int parameter);
-ruleSet_t change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter);
-ruleSet_t change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter);
-ruleSet_t change_action_2(ruleSet_t ruleset, int nb_rule, int parameter);
-ruleSet_t change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter);
-ruleSet_t changeRule2(ruleSet_t rules);
+void change_case2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules);
+void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille), int taille,ruleSet_t* bestRules);
+void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille), int taille,ruleSet_t* bestRules);
+void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille), int taille,ruleSet_t* bestRules);
+void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille), int taille,ruleSet_t* bestRules);
+void changeRule2(ruleSet_t *rules,int taille, void energy(ruleSet_t ruleset,int taille),ruleSet_t* bestRules);

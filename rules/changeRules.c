@@ -222,7 +222,21 @@
 //     rules->rules[i] = changeRule(*rules, i);
 //   return rules;
 // }
-
+void copyRuleSet(ruleSet_t rules, ruleSet_t* copy) {
+  copy->rules = malloc(NB_RULES*sizeof(rule_t));
+  for (int i = 0; i < NB_RULES; i++) {
+    copy->rules[i]._case[0] = rules.rules[i]._case[0];
+    copy->rules[i]._case[1] = rules.rules[i]._case[1];
+    copy->rules[i]._case[2] = rules.rules[i]._case[2];
+    copy->rules[i]._case[3] = rules.rules[i]._case[3];
+    copy->rules[i].direction_predateur = rules.rules[i].direction_predateur;
+    copy->rules[i].direction_terrier = rules.rules[i].direction_terrier;
+    copy->rules[i].distance_predateur = rules.rules[i].distance_predateur;
+    copy->rules[i].distance_terrier = rules.rules[i].distance_terrier;
+    copy->rules[i].action = rules.rules[i].action;
+    copy->rules[i].priority = rules.rules[i].priority;
+  }
+}
 int choose_rule() {
   int rule = rand() % NB_RULES;
   return rule;
@@ -231,156 +245,172 @@ int choose_parameter() {
   int parameter = rand() % 10;
   return parameter;
 }
-void insertRule(ruleSet_t ruleset, ruleSet_t ruleset_attempt[], int parameter,
+void insertRule(ruleSet_t ruleset, ruleSet_t *attempt_ruleset, int parameter,
                 int possibility, int nb_rule) {
-  ruleSet_t attempt_ruleset = ruleset;
+
+  copyRuleSet(ruleset, attempt_ruleset);
+  // printf("Nb Rule et parameter : %d %d\n", nb_rule, parameter);
+  // printf("Possibility : %d\n", possibility);
+  // printf("Sortie de copie\n");
+  // printRuleSet(attempt_ruleset);
   switch (parameter) {
   case 0:
-    attempt_ruleset.rules[nb_rule]._case[parameter] = possibility;
+    attempt_ruleset->rules[nb_rule]._case[parameter] = possibility;
     break;
   case 1:
-    attempt_ruleset.rules[nb_rule]._case[parameter] = possibility;
+    attempt_ruleset->rules[nb_rule]._case[parameter] = possibility;
     break;
   case 2:
-    attempt_ruleset.rules[nb_rule]._case[parameter] = possibility;
+    attempt_ruleset->rules[nb_rule]._case[parameter] = possibility;
     break;
   case 3:
-    attempt_ruleset.rules[nb_rule]._case[parameter] = possibility;
+    attempt_ruleset->rules[nb_rule]._case[parameter] = possibility;
     break;
   case 4:
-    attempt_ruleset.rules[nb_rule].direction_predateur = possibility;
+    attempt_ruleset->rules[nb_rule].direction_predateur = possibility;
     break;
   case 5:
-    attempt_ruleset.rules[nb_rule].direction_terrier = possibility;
+    attempt_ruleset->rules[nb_rule].direction_terrier = possibility;
     break;
   case 6:
-    attempt_ruleset.rules[nb_rule].distance_predateur = possibility;
+    attempt_ruleset->rules[nb_rule].distance_predateur = possibility;
     break;
   case 7:
-    attempt_ruleset.rules[nb_rule].distance_terrier = possibility;
+    attempt_ruleset->rules[nb_rule].distance_terrier = possibility;
     break;
   case 8:
-    attempt_ruleset.rules[nb_rule].action = possibility;
+    attempt_ruleset->rules[nb_rule].action = possibility;
     break;
   case 9:
-    attempt_ruleset.rules[nb_rule].priority = possibility;
+    attempt_ruleset->rules[nb_rule].priority = possibility;
     break;
   default:
     break;
   }
-
-  ruleset_attempt[possibility + 1] = attempt_ruleset;
+//   printf("Sortie de changement\n");
+//   printRuleSet(attempt_ruleset);
 }
-ruleSet_t change_case2(ruleSet_t ruleset, int nb_rule, int parameter) {
+void change_case2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[6];
+  ruleSet_t tempRuleset;
   for (int i = 0; i < 6; i++) {
-    insertRule(ruleset, ruleset_attempt, parameter, i - 1, nb_rule);
-    energy(ruleset_attempt[i]);
-    if (ruleset_attempt[i].energy <= bestEnergy) {
-      bestEnergy = ruleset_attempt[i].energy;
+    insertRule(ruleset, &tempRuleset, parameter, i - 1, nb_rule);
+    energy(tempRuleset,taille);
+    if (tempRuleset.energy <= bestEnergy) {
+      bestEnergy = tempRuleset.energy;
       bestruleSet = i;
     }
+    ruleset_attempt[i]=tempRuleset;
   }
-  return ruleset_attempt[bestruleSet];
+  *bestRules=ruleset_attempt[bestruleSet];
 }
 
-ruleSet_t change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter) {
+void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille), int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[5];
+  ruleSet_t tempRuleset;
   for (int i = 0; i < 5; i++) {
-    insertRule(ruleset, ruleset_attempt, parameter, i - 1, nb_rule);
-    energy(ruleset_attempt[i]);
-    if (ruleset_attempt[i].energy <= bestEnergy) {
-      bestEnergy = ruleset_attempt[i].energy;
+    insertRule(ruleset, &tempRuleset, parameter, i - 1, nb_rule);
+    energy(tempRuleset,taille);
+    if (tempRuleset.energy <= bestEnergy) {
+      bestEnergy = tempRuleset.energy;
       bestruleSet = i;
     }
+    ruleset_attempt[i]=tempRuleset;
   }
-  return ruleset_attempt[bestruleSet];
+  *bestRules=ruleset_attempt[bestruleSet];
 }
-ruleSet_t change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter) {
+void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[4];
+  ruleSet_t tempRuleset;
   for (int i = 0; i < 4; i++) {
-    insertRule(ruleset, ruleset_attempt, parameter, i, nb_rule);
-    energy(ruleset_attempt[i]);
-    if (ruleset_attempt[i].energy <= bestEnergy) {
-      bestEnergy = ruleset_attempt[i].energy;
+    insertRule(ruleset, &tempRuleset, parameter, i -1,nb_rule);
+    energy(tempRuleset,taille);
+    if (tempRuleset.energy <= bestEnergy) {
+      bestEnergy = tempRuleset.energy;
       bestruleSet = i;
     }
+    ruleset_attempt[i]=tempRuleset;
   }
-  return ruleset_attempt[bestruleSet];
+  *bestRules=ruleset_attempt[bestruleSet];
 }
 
-ruleSet_t change_action_2(ruleSet_t ruleset, int nb_rule, int parameter) {
+void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[3];
+  ruleSet_t tempRuleset;
   for (int i = 0; i < 3; i++) {
-    insertRule(ruleset, ruleset_attempt, parameter, i - 1, nb_rule);
-    energy(ruleset_attempt[i]);
-    if (ruleset_attempt[i].energy <= bestEnergy) {
-      bestEnergy = ruleset_attempt[i].energy;
+     insertRule(ruleset, &tempRuleset, parameter, i, nb_rule);
+    energy(tempRuleset,taille);
+    if (tempRuleset.energy <= bestEnergy) {
+      bestEnergy = tempRuleset.energy;
       bestruleSet = i;
     }
+    ruleset_attempt[i]=tempRuleset;
   }
-  return ruleset_attempt[bestruleSet];
+  *bestRules=ruleset_attempt[bestruleSet];
 }
 
-ruleSet_t change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter) {
+void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter, void energy(ruleSet_t rules,int taille),int taille,ruleSet_t* bestRules) {
   int bestEnergy = INT_MAX;
   int bestruleSet = -1;
   ruleSet_t ruleset_attempt[3];
+  ruleSet_t tempRuleset;
   for (int i = 1; i < 4; i++) {
-    insertRule(ruleset, ruleset_attempt, parameter, i, nb_rule);
-    energy(ruleset_attempt[i]);
-    if (ruleset_attempt[i].energy <= bestEnergy) {
-      bestEnergy = ruleset_attempt[i].energy;
+    insertRule(ruleset, &tempRuleset, parameter, i, nb_rule);
+
+    energy(tempRuleset,taille);
+    if (tempRuleset.energy <= bestEnergy) {
+      bestEnergy = tempRuleset.energy;
       bestruleSet = i;
     }
+    ruleset_attempt[i-1]=tempRuleset;
   }
-  return ruleset_attempt[bestruleSet];
+  *bestRules=ruleset_attempt[bestruleSet-1];
 }
-ruleSet_t changeRule2(ruleSet_t rules) {
+void changeRule2(ruleSet_t *rules,int taille,void energy(ruleSet_t rules,int taille), ruleSet_t * bestRules) {
   int nb_rule = choose_rule();
   int parameter = choose_parameter();
-  ruleSet_t bestRules;
   switch (parameter) {
   case 0:
-    bestRules= change_case2(rules, nb_rule, parameter);
+    change_case2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 1:
-    bestRules=change_case2(rules, nb_rule, parameter);
+    change_case2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 2:
-    bestRules=change_case2(rules, nb_rule, parameter);
+    change_case2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 3:
-    bestRules=change_case2(rules, nb_rule, parameter);
+    change_case2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 4:
-    bestRules=change_direction_2(rules, nb_rule, parameter);
+    change_direction_2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 5:
-    bestRules=change_direction_2(rules, nb_rule, parameter);
+    change_direction_2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 6:
-    bestRules=change_distance_2(rules, nb_rule, parameter);
+    change_distance_2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 7:
-    bestRules=change_distance_2(rules, nb_rule, parameter);
+    change_distance_2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 8:
-    bestRules=change_action_2(rules, nb_rule, parameter);
+    change_action_2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   case 9:
-    bestRules=change_priority_2(rules, nb_rule, parameter);
+    change_priority_2(*rules, nb_rule, parameter, energy,taille,bestRules);
     break;
   default:
     break;
   }
-return bestRules;
+    // printf("ALED2\n");
+    // printRuleSet(bestRules);
 }

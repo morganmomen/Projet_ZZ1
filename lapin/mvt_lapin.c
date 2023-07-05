@@ -107,7 +107,7 @@ void deplacement_lapin(int **map, int taille, ruleSet_t *rules,
   recherche_terrier(map, taille, lapin);
 }
 
-int lapin(int **map, joueur_t *lapin, int taille, ruleSet_t *rules) {
+int lapin_main(int **map, joueur_t *lapin, int taille, ruleSet_t *rules) {
   SDL_Window *window = NULL;
   SDL_Renderer *renderer = NULL;
   initSDL(&window, &renderer);
