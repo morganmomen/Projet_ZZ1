@@ -101,10 +101,10 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
     SDL_Rect destination_lapin={0};
     SDL_Rect source_lapin={0};
 
-    destination_lapin.w = offsetX * 0.5 +10;       
-    destination_lapin.h = offsetY * 0.5 +10;
-    destination_lapin.y = y*offsetY;
-    destination_lapin.x = x*offsetX;
+    destination_lapin.w = offsetX *0.7;       
+    destination_lapin.h = offsetY *0.7;
+    destination_lapin.y = y*offsetY +10;
+    destination_lapin.x = x*offsetX +10;
 
     if(lapin_struct.x_precedent == -1 || lapin_struct.y_precedent == -1){
         lapin_struct.x_precedent = x ;
@@ -167,7 +167,7 @@ void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int
 
     
     SDL_RenderCopy(renderer, chasseurtexture, &source_chasseur, &destination_chasseur);
-    SDL_Delay(100);
+    SDL_Delay(10);
 
 }
 
