@@ -2,7 +2,7 @@
 
 int taille =15;
 
-void apprentissageAleatoire(int tailleArg, int nombreiteration){
+void apprentissageAleatoire(int tailleArg, int numthread){
 
     // int ** map = NULL;
     // joueur_t jlapin;
@@ -12,51 +12,30 @@ void apprentissageAleatoire(int tailleArg, int nombreiteration){
     // position_terrier.y=1;
     // int energieMax = 0;
     taille = tailleArg;
-    int nbLancer = 5;
-    int numFiles = 6;
-    pthread_t threads[numFiles];
-    char** fileNames = (char**)malloc(numFiles*nbLancer * sizeof(char*));
-    for (int i = 0; i < numFiles*nbLancer; i++)
+    pthread_t threads[numthread];
+    char** fileNames = (char**)malloc(numthread * sizeof(char*));
+    for (int i = 0; i < numthread; i++)
     {
         fileNames[i] = (char*)malloc(255 * sizeof(char));
-        sprintf(fileNames[i], "./res/thread%d.txt", i + 1);
+        sprintf(fileNames[i], "./thread%d.txt", i + 1);
+    }
+
+    for(int i = 0; i < numthread; i++){
         printf("%s\n", fileNames[i]);
-    }
-    for(int i =0; i<nbLancer; i++){
-        for(int j = 0; j < numFiles; j++){
-            printf("nom fichier : %s\n", fileNames[i*numFiles + j]);
-            if (pthread_create(&threads[j], NULL, thread_jeu, fileNames[i*numFiles + j]) != 0) {
-                fprintf(stderr, "Error creating thread %d\n", j);
-                exit(1);
-            }
-        }
-
-        for(int j = 0; j < numFiles; j++){
-
-            if (pthread_join(threads[j], NULL) != 0) {
-                fprintf(stderr, "Error joining thread %d\n", j);
-                exit(1);
-            }
-
+        if (pthread_create(&threads[i], NULL, thread_jeu, fileNames[i]) != 0) {
+            fprintf(stderr, "Error creating thread %d\n", i);
+            exit(1);
         }
     }
 
-    // for(int i = 0; i < numFiles; i++){
-    //     printf("%s\n", fileNames[i]);
-    //     if (pthread_create(&threads[i], NULL, thread_jeu, fileNames[i]) != 0) {
-    //         fprintf(stderr, "Error creating thread %d\n", i);
-    //         exit(1);
-    //     }
-    // }
+    for(int i = 0; i < numthread; i++){
 
-    // for(int i = 0; i < numFiles; i++){
+        if (pthread_join(threads[i], NULL) != 0) {
+            fprintf(stderr, "Error joining thread %d\n", i);
+            exit(1);
+        }
 
-    //     if (pthread_join(threads[i], NULL) != 0) {
-    //         fprintf(stderr, "Error joining thread %d\n", i);
-    //         exit(1);
-    //     }
-
-    // }
+    }
         // printf("iteration %d\n", i);
         // // generation de regles
         // ruleSet_t * rules = NULL;
@@ -134,7 +113,7 @@ void apprentissageAleatoire(int tailleArg, int nombreiteration){
     //}
 
 
-    for (int i = 0; i < numFiles * nbLancer; i++)
+    for (int i = 0; i < numthread; i++)
     {
         free(fileNames[i]);
     }
@@ -145,7 +124,8 @@ void apprentissageAleatoire(int tailleArg, int nombreiteration){
 
 
 
-void* thread_jeu(void*arg){
+void* thread_jeu(void*arg)
+{
 
 
     int ** map = NULL;
@@ -157,7 +137,6 @@ void* thread_jeu(void*arg){
     int energieMax = 0;
 
     char* nom = (char*)arg;
-    // for(int nbRulesTest = 0; nbRulesTest <100; nbRulesTest++){
     while(1){
         // generation de regles
         ruleSet_t * rules = NULL;
@@ -208,8 +187,7 @@ void* thread_jeu(void*arg){
                 {
                     printf("Le lapin a gagne thread: %s\n", nom);
                     writeRulesToFile(rules->rules, NB_RULES, nom);
-                    return NULL;
-
+                    return(NULL);
                     drapeau_chasse = 2;
                 }
 
@@ -240,7 +218,7 @@ void* thread_jeu(void*arg){
 
 }
 
-void finalTournoiRules(){
+void finalTournoiRules(int numthread){
 
     int ** map = NULL;
     joueur_t jlapin;
@@ -249,17 +227,16 @@ void finalTournoiRules(){
     position_terrier.x=1;
     position_terrier.y=1;
     int energieMax = 0;
-    int nbLancer = 5;
-    int numFiles = 6;
-    char** fileNames = (char**)malloc(numFiles*nbLancer * sizeof(char*));
-    for (int i = 0; i < numFiles*nbLancer; i++)
+
+    char** fileNames = (char**)malloc(numthread * sizeof(char*));
+    for (int i = 0; i < numthread; i++)
     {
         fileNames[i] = (char*)malloc(255 * sizeof(char));
-        sprintf(fileNames[i], "./res/thread%d.txt", i + 1);
-        printf("%s\n", fileNames[i]);
+        sprintf(fileNames[i], "./thread%d.txt", i + 1);
     }
-    for(int i = 0; i < numFiles * nbLancer; i++){
+    for(int i = 0; i < numthread; i++){
 
+        // generation de regles
         ruleSet_t *rules = malloc(sizeof(ruleSet_t));
         rules->rules = malloc(sizeof(rule_t) * NB_RULES);
         readRulesFromFile(fileNames[i], &(rules->rules));
@@ -272,7 +249,7 @@ void finalTournoiRules(){
         int nbreussite_total = 0;
         int drapeau_chasse;
         int nbIterationParSimu = 0;
-        for(int nbSimu = 0; nbSimu < 100 ; nbSimu++){
+        for(int nbSimu = 0; nbSimu < 150 ; nbSimu++){
 
             map = init_map(taille+2);
             position * position_chasseur = generateMaze(map, taille+2);
@@ -307,6 +284,7 @@ void finalTournoiRules(){
                 }
                 if ((position_terrier.x==jlapin.x)&&(position_terrier.y==jlapin.y))
                 {
+                    printf("Le lapin a gagne\n");
                     drapeau_chasse = 2;
                 }
 
@@ -319,15 +297,19 @@ void finalTournoiRules(){
             liberer_map(map,taille);
 
         }
-        printf(" thread %s : pourcentage : %d/100\n",fileNames[i] ,nbreussite_total);
-
-
+        
+        if(nbreussite_total >= energieMax){
+            energieMax = nbreussite_total;
+            printf("Nouveau record : %d\n", energieMax);
+            //printRuleSet(rules);
+            writeRulesToFile(rules->rules, NB_RULES, "./Bestrules.txt");
+        }
 
     }
         
     
     
-    for (int i = 0; i < numFiles; i++)
+    for (int i = 0; i < numthread; i++)
     {
         free(fileNames[i]);
     }

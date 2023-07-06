@@ -126,6 +126,40 @@ int lapin(int **map, joueur_t *lapin, int taille, ruleSet_t *rules) {
   return 0;
 }
 
+
+void deplacement_lapin_clavier(int **map, int taille, joueur_t *lapin) {
+  SDL_PumpEvents(); 
+  const Uint8 *state = SDL_GetKeyboardState(NULL);
+  
+  if (state[SDL_SCANCODE_UP] && map[lapin->x - 1][lapin->y] != 1) {
+      map[lapin->x][lapin->y] = VIDE;
+      lapin->x -= 1;
+      map[lapin->x][lapin->y] = LAPIN;
+  }
+  
+  if (state[SDL_SCANCODE_DOWN] && map[lapin->x + 1][lapin->y] != 1) {
+      map[lapin->x][lapin->y] = VIDE;
+      lapin->x += 1;
+      map[lapin->x][lapin->y] = LAPIN;
+  }
+  
+  if (state[SDL_SCANCODE_LEFT] && map[lapin->x][lapin->y - 1] != 1) {
+      map[lapin->x][lapin->y] = VIDE;
+      lapin->y -= 1;
+      map[lapin->x][lapin->y] = LAPIN;
+  }
+  
+  if (state[SDL_SCANCODE_RIGHT] && map[lapin->x][lapin->y + 1] != 1) {
+      map[lapin->x][lapin->y] = VIDE;
+      lapin->y += 1;
+      map[lapin->x][lapin->y] = LAPIN;
+  }
+}
+
+
+
+
+
 /*
 int main() {
   int n = 15;
