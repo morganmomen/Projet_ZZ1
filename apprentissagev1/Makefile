@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra -pthread -g -fsanitize=address
+CFLAGS = -Wall -Wextra -pthread
 LDFLAGS =-lSDL2 -lSDL2_image -lm -lSDL2_ttf
 
 # Répertoires
@@ -21,7 +21,7 @@ APPRENTISSAGE_DIR = ./
 
 RULES_SOURCE = $(RULES_DIR)rules.c $(RULES_DIR)changeRules_multithreading.c $(RULES_DIR)choixRules.c
 
-
+#RULES_SOURCE = $(RULES_DIR)rules.c $(RULES_DIR)changeRules.c $(RULES_DIR)choixRules.c
 
 MAP_SOURCE = $(MAP_DIR)crea_map.c
 
@@ -35,8 +35,7 @@ DIJKSTRA_SOURCE=$(DIJKSTRA_DIR)dijkstra.c
 # 					$(GESTION_JEU_DIR)gestion_jeu_main.c
 # APPRENTISSAGE_SOURCE= $(APPRENTISSAGE_DIR)apprentissagev1.c \
 # 					$(APPRENTISSAGE_DIR)apprentissagev1_main.c \
-# 					$(APPRENTISSAGE_DIR)apprentissage_multitheading.c \
-# 					$(APPRENTISSAGE_DIR)apprentissage_multithreading_main.c
+
 APPRENTISSAGE_SOURCE= $(APPRENTISSAGE_DIR)apprentissage_multitheading.c $(APPRENTISSAGE_DIR)apprentissage_multithreading_main.c
 
 # Fichiers objets
@@ -55,7 +54,7 @@ APPRENTISSAGE_OBJECT = $(APPRENTISSAGE_SOURCE:$(APPRENTISSAGE_DIR)/%.c=$(OBJDIR)
 EXECUTABLE = apprentissagev1
 
 # Règle par défaut
-all: $(EXECUTABLE)
+all: clean $(EXECUTABLE)
 
 # Règle de construction de l'exécutable
 $(EXECUTABLE): $(AFFICHAGE_OBJECTS) $(MAP_OBJECT) $(CHASSEUR_OBJECT) $(DIJKSTRA_OBJECT) $(RULES_OBJECTS) $(LAPIN_OBJECT) $(APPRENTISSAGE_OBJECT)

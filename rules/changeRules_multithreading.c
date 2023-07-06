@@ -82,7 +82,7 @@ void insertRule(ruleSet_t attempt_ruleset, int parameter, int possibility,
   // printRuleSet(&ruleset);
 }
 void change_case2(ruleSet_t ruleset, int nb_rule, int parameter,
-                  void energy_multithreading(ruleSet_t **attempt_rules,
+                  void energy_multithreading(ruleSet_t *attempt_rules,
                                              int nb_threads, int taille,
                                              int coef_chasseur,
                                              int coef_terrier),
@@ -90,8 +90,8 @@ void change_case2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[6];
-  setup_attempts(&ruleset_attempt, 6, ruleset, parameter, 0, nb_rule);
-  energy_multithreading(&ruleset_attempt, 6, taille, 0, 1);
+  setup_attempts(ruleset_attempt, 6, ruleset, parameter, 0, nb_rule);
+  energy_multithreading(ruleset_attempt, 6, taille, 0, 1);
   for (int i = 0; i < 6; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
       bestEnergy = ruleset_attempt[i].energy;
@@ -103,7 +103,7 @@ void change_case2(ruleSet_t ruleset, int nb_rule, int parameter,
 }
 
 void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter,
-                        void energy_multithreading(ruleSet_t **attempt_rules,
+                        void energy_multithreading(ruleSet_t *attempt_rules,
                                                    int nb_threads, int taille,
                                                    int coef_chasseur,
                                                    int coef_terrier),
@@ -111,8 +111,9 @@ void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[5];
-  setup_attempts(&ruleset_attempt, 5, ruleset, parameter, 0, nb_rule);
-  energy_multithreading(&ruleset_attempt, 5, taille, 0, 1);
+  setup_attempts(ruleset_attempt, 5, ruleset, parameter, 0, nb_rule);
+
+  energy_multithreading(ruleset_attempt, 5, taille, 0, 1);
   for (int i = 0; i < 5; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
       bestEnergy = ruleset_attempt[i].energy;
@@ -124,7 +125,7 @@ void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter,
 }
 
 void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter,
-                       void energy_multithreading(ruleSet_t **attempt_rules,
+                       void energy_multithreading(ruleSet_t *attempt_rules,
                                                   int nb_threads, int taille,
                                                   int coef_chasseur,
                                                   int coef_terrier),
@@ -132,8 +133,8 @@ void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[4];
-  setup_attempts(&ruleset_attempt, 4, ruleset, parameter, 0, nb_rule);
-  energy_multithreading(&ruleset_attempt, 4, taille, 0, 1);
+  setup_attempts(ruleset_attempt, 4, ruleset, parameter, 0, nb_rule);
+  energy_multithreading(ruleset_attempt, 4, taille, 0, 1);
   for (int i = 0; i < 4; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
       bestEnergy = ruleset_attempt[i].energy;
@@ -145,7 +146,7 @@ void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter,
 }
 
 void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter,
-                     void energy_multithreading(ruleSet_t **attempt_rules,
+                     void energy_multithreading(ruleSet_t *attempt_rules,
                                                 int nb_threads, int taille,
                                                 int coef_chasseur,
                                                 int coef_terrier),
@@ -153,8 +154,8 @@ void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[3];
-  setup_attempts(&ruleset_attempt, 3, ruleset, parameter, 0, nb_rule);
-  energy_multithreading(&ruleset_attempt, 3, taille, 0, 1);
+  setup_attempts(ruleset_attempt, 3, ruleset, parameter, 0, nb_rule);
+  energy_multithreading(ruleset_attempt, 3, taille, 0, 1);
   for (int i = 0; i < 3; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
       bestEnergy = ruleset_attempt[i].energy;
@@ -166,7 +167,7 @@ void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter,
 }
 
 void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter,
-                       void energy_multithreading(ruleSet_t **attempt_rules,
+                       void energy_multithreading(ruleSet_t *attempt_rules,
                                                   int nb_threads, int taille,
                                                   int coef_chasseur,
                                                   int coef_terrier),
@@ -174,8 +175,8 @@ void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[3];
-  setup_attempts(&ruleset_attempt, 3, ruleset, parameter, 0, nb_rule);
-  energy_multithreading(&ruleset_attempt, 3, taille, 0, 1);
+  setup_attempts(ruleset_attempt, 3, ruleset, parameter, 0, nb_rule);
+  energy_multithreading(ruleset_attempt, 3, taille, 0, 1);
   for (int i = 0; i < 3; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
       bestEnergy = ruleset_attempt[i].energy;
@@ -183,10 +184,10 @@ void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter,
     }
   }
   copyRuleSet(ruleset_attempt[bestruleSet], bestRules);
-  bestRules = bestEnergy;
+  bestRules->energy = bestEnergy;
 }
 void changeRule2(ruleSet_t *rules, int taille,
-                 void energy_multithreading(ruleSet_t **attempt_rules,
+                 void energy_multithreading(ruleSet_t *attempt_rules,
                                             int nb_threads, int taille,
                                             int coef_chasseur,
                                             int coef_terrier),
@@ -238,6 +239,6 @@ void changeRule2(ruleSet_t *rules, int taille,
   default:
     break;
   }
-  //printf("bestRules : \n");
-  //printRuleSet(bestRules);
+  // printf("bestRules : \n");
+  // printRuleSet(bestRules);
 }

@@ -74,29 +74,33 @@ void deplacement_lapin(int **map, int taille, ruleSet_t *rules,
   srand(time(NULL) * rand());
   action = choixRule(rules, lapin);
   map[lapin->x][lapin->y] = VIDE;
-  //printf("Action : %d\n", action);
+  // printf("Action : %d\n", action);
   switch (action) {
   case GAUCHE:
-    if (map[lapin->x][lapin->y - 1] == 1);
-      //printf("Lapin : Je ne peux pas avancer\n");
+    if (map[lapin->x][lapin->y - 1] == 1)
+      ;
+    // printf("Lapin : Je ne peux pas avancer\n");
     else
       lapin->y = lapin->y - 1;
     break;
   case AVANCER:
-    if (map[lapin->x - 1][lapin->y] == 1);
-      //printf("Lapin : Je ne peux pas avancer\n");
+    if (map[lapin->x - 1][lapin->y] == 1)
+      ;
+    // printf("Lapin : Je ne peux pas avancer\n");
     else
       lapin->x = lapin->x - 1;
     break;
   case DROITE:
-    if (map[lapin->x][lapin->y + 1] == 1);
-      //printf("Lapin : Je ne peux pas avancer\n");
+    if (map[lapin->x][lapin->y + 1] == 1)
+      ;
+    // printf("Lapin : Je ne peux pas avancer\n");
     else
       lapin->y = lapin->y + 1;
     break;
   case RECULER:
-    if (map[lapin->x + 1][lapin->y] == 1);
-      // printf("Lapin : Je ne peux pas avancer\n")
+    if (map[lapin->x + 1][lapin->y] == 1)
+      ;
+    // printf("Lapin : Je ne peux pas avancer\n")
     else
       lapin->x = lapin->x + 1;
     break;

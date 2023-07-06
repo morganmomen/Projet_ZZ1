@@ -1,7 +1,7 @@
 #include "apprentissage_multithreading.h"
 #include "apprentissagev1.h"
 
-thread_args_t * setup_thread_args(int nb_thread, int taille) {
+thread_args_t *setup_thread_args(int nb_thread, int taille) {
   thread_args_t *thread_args = malloc(nb_thread * sizeof(thread_args_t));
   for (int i = 0; i < nb_thread; i++) {
     thread_args[i].rules = malloc(sizeof(ruleSet_t));
@@ -51,17 +51,20 @@ int lancer_jeu_sans_graphisme_apprentissage_multithreading(int taille,
       drapeau_chasse = 2;
     }
   }
+  int score_lapin = score(lapin, position_terrier, drapeau_chasse,taille);
 
   liberer_map(map, taille);
   free(position_chasseur);
 
-  return (drapeau_chasse);
+  return score_lapin;
 }
-void energy_multithreading(ruleSet_t **attempt_rules, int nb_threads,
-                           int taille, int coef_chasseur, int coef_terrier) {
+void energy_multithreading(ruleSet_t *attempt_rules, int nb_threads, int taille,
+                           int coef_chasseur, int coef_terrier) {
   pthread_t threads[nb_threads];
   thread_args_t *thread_args = setup_thread_args(nb_threads, taille);
-  printf("coucou %d", thread_args[0].taille);
+  for (int i = 0; i < nb_threads; i++) {
+    copyRuleSet(attempt_rules[i], thread_args[i].rules);
+  }
   for (int i = 0; i < nb_threads; i++) {
     if (pthread_create(&threads[i], NULL, thread_jeu, &thread_args[i]) != 0) {
       fprintf(stderr, "Error creating thread %d\n", i);
@@ -78,17 +81,18 @@ void energy_multithreading(ruleSet_t **attempt_rules, int nb_threads,
 }
 void *thread_jeu(void *arg) {
   thread_args_t *struct_thread_args = (thread_args_t *)arg;
-  //printf("coucou %d\n", struct_thread_args->taille);
+  // printf("coucou %d\n", struct_thread_args->taille);
   int nb_iterations = 0;
-  int drapeau_chasseur;
-  int energy = 0;
   int compteur_lapin = 0;
+  int score;
+
   for (int i = 0; i < 10; i++) {
-    drapeau_chasseur = lancer_jeu_sans_graphisme_apprentissage_multithreading(struct_thread_args->taille, &nb_iterations, struct_thread_args->rules);
-    if (drapeau_chasseur == 2)
-      compteur_lapin++;
+    score = lancer_jeu_sans_graphisme_apprentissage_multithreading(
+        struct_thread_args->taille, &nb_iterations, struct_thread_args->rules);
+    compteur_lapin += score;
   }
-  printf("Le lapin à gagné %d fois sur 10\n", compteur_lapin);
+  compteur_lapin /= 10;
+  printf("Le lapin a un score de %d\n", compteur_lapin);
   struct_thread_args->rules->energy = compteur_lapin;
   pthread_exit(NULL);
 }
@@ -100,4 +104,11 @@ void shuffle(int *array, int n) {
     array[i] = array[j];
     array[j] = temp;
   }
+}
+int score(joueur_t lapin, position terrier, int drapeau_chasseur,int taille) {
+  int score_joueur = 100*(abs(lapin.x - taille) + abs(lapin.y - taille));
+  if (drapeau_chasseur == 2) {
+    score_joueur += 10000;
+  }
+  return score_joueur;
 }

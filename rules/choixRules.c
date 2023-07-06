@@ -15,7 +15,7 @@ action_t choixRule(ruleSet_t *rules, joueur_t *joueur) {
   }
 
   if (nbRuleValide == 0) {
-    return -1;
+    return rand() % 5;
   }
 
   // for (int i = 0; i < nbRuleValide; i++) {
@@ -32,9 +32,9 @@ action_t choixRule(ruleSet_t *rules, joueur_t *joueur) {
   for (int k = 0; k < nbRuleValide; k++) {
     // printf("puissance %f",
     //        pow(rules->rules[ruleValide[k]].priority + 1, s) / S);
-    
+
     cumul += pow(rules->rules[ruleValide[k]].priority + 1, s) / S;
-    //printf("cumul %f", cumul);
+    // printf("cumul %f", cumul);
     tabPondereRule[k] = cumul;
   }
 
@@ -46,19 +46,17 @@ action_t choixRule(ruleSet_t *rules, joueur_t *joueur) {
   //         nbRuleDansTab++;
   //     }
   // }
-  
+
   // for (int i = 0; i < nbRuleValide; i++) {
   //   printf("tabPondereRule[%d] = %f\n", i, tabPondereRule[i]);
   // }
 
-  float alpha = (rand() % 100) *0.01;
-  //printf("alpha = %f\n", alpha);
+  float alpha = (rand() % 100) * 0.01;
+  // printf("alpha = %f\n", alpha);
   int compteur = 0;
-  while (alpha > tabPondereRule[compteur])
-  {
+  while (alpha > tabPondereRule[compteur]) {
     compteur++;
   }
-  
 
   return rules->rules[ruleValide[compteur]].action;
 }
