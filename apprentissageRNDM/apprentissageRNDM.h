@@ -13,6 +13,6 @@
 #include "../lapin/mvt_lapin.h"
 
 
-void apprentissageAleatoire(int tailleArg, int nombreiteration);
+void apprentissageAleatoire(int tailleArg, int numthread);
 void* thread_jeu(void*arg);
-void finalTournoiRules();
+void finalTournoiRules(int numthread);

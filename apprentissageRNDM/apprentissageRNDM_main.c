@@ -8,7 +8,7 @@ int main(int argc, char **argv)
     (void)argv;
 
     int taille = 15;
-    apprentissageAleatoire(taille,60);
+    apprentissageAleatoire(taille,3);
     //finalTournoiRules();
     return 0;
 }
