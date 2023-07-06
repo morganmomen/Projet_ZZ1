@@ -107,8 +107,8 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
 
     destination_lapin.w = offsetX *0.7;       
     destination_lapin.h = offsetY *0.7;
-    destination_lapin.y = y*offsetY +10;
-    destination_lapin.x = x*offsetX +10;
+    destination_lapin.y = y*offsetY +offsetX*0.5;
+    destination_lapin.x = x*offsetX +offsetY*0.5;
 
     if(lapin_struct.x_precedent == -1 || lapin_struct.y_precedent == -1){
         lapin_struct.x_precedent = x ;

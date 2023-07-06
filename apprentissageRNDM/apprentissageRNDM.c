@@ -137,7 +137,7 @@ void* thread_jeu(void*arg)
     int energieMax = 0;
 
     char* nom = (char*)arg;
-    for(int nbRulesTest = 0; nbRulesTest <100; nbRulesTest++){
+    while(1){
         // generation de regles
         ruleSet_t * rules = NULL;
         rules = generateRuleSet();
@@ -150,7 +150,7 @@ void* thread_jeu(void*arg)
         int nbreussite_total = 0;
         int drapeau_chasse;
         int nbIterationParSimu = 0;
-        for(int nbSimu = 0; nbSimu < 35 ; nbSimu++){
+        for(int nbSimu = 0; nbSimu < 10 ; nbSimu++){
 
             map = init_map(taille+2);
             position * position_chasseur = generateMaze(map, taille+2);
@@ -186,6 +186,8 @@ void* thread_jeu(void*arg)
                 if ((position_terrier.x==jlapin.x)&&(position_terrier.y==jlapin.y))
                 {
                     printf("Le lapin a gagne thread: %s\n", nom);
+                    writeRulesToFile(rules->rules, NB_RULES, nom);
+                    return(NULL);
                     drapeau_chasse = 2;
                 }
 
