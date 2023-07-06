@@ -23,6 +23,7 @@
 int lancer_jeu_sans_graphisme (int taille, int * nb_iterations);
 
 int lancer_jeu_avec_graphisme (int taille, int *nb_iterations);
+int lancer_jeu_avec_graphisme_avec_control_lapin (int taille, int *nb_iterations);
 
 
 #endif
