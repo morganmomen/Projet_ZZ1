@@ -6,13 +6,22 @@
 void generateRule(rule_t *rule) {
   srand(time(NULL) + rand());
   int terrier_v = 2;
-  rule->_case[0] = (rand() % 4) - 1;
-  rule->_case[1] = (rand() % 4) - 1;
-  rule->_case[2] = (rand() % 4) - 1;
-  rule->_case[3] = (rand() % 4) - 1;
+  int chasseur_v = 4;
+  rule->_case[0] = (rand() % 6) - 1;
+  rule->_case[1] = (rand() % 6) - 1;
+  rule->_case[2] = (rand() % 6) - 1;
+  rule->_case[3] = (rand() % 6) - 1;
   for(int i = 0; i<4; i++){
-    if(rule->_case[i] == 2) rule->_case[i] = terrier_v;
-    terrier_v = -1;
+    if(rule->_case[i] == TERRIER){
+      rule->_case[i] = terrier_v;
+      terrier_v = -1;
+    }
+     else if(rule->_case[i] == LAPIN) rule->_case[i] = -1;
+     else if(rule->_case[i] == CHASSEUR){
+      rule->_case[i] = chasseur_v;
+      chasseur_v = -1;
+     } 
+
   }
   rule->direction_predateur = (rand() % 5) - 1;
   rule->direction_terrier = (rand() % 5) - 1;

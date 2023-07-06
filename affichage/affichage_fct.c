@@ -129,7 +129,7 @@ void afficheLapin(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x,
     
     
     SDL_RenderCopy(renderer, lapintexture,&source_lapin, &destination_lapin);
-    SDL_Delay(50);
+    //SDL_Delay(50);
 }
 
 void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int x, int y, int offsetX,int offsetY)
@@ -176,7 +176,7 @@ void afficheChasseur(SDL_Renderer * renderer,SDL_Window * window ,int** map, int
 
     
     SDL_RenderCopy(renderer, chasseurtexture, &source_chasseur, &destination_chasseur);
-    SDL_Delay(10);
+    //SDL_Delay(10);
 
 }
 

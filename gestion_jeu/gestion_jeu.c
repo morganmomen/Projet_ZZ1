@@ -78,7 +78,7 @@ int lancer_jeu_avec_graphisme (int taille, int *nb_iterations)
 
     affichefond(renderer,window,map,taille+2);
     SDL_RenderPresent(renderer);
-    SDL_Delay(1000);
+    SDL_Delay(2000);
 
     joueur_t jlapin;
     jlapin.x = taille;
@@ -126,7 +126,6 @@ int lancer_jeu_avec_graphisme (int taille, int *nb_iterations)
         SDL_RenderClear(renderer);
         affichefond(renderer,window,map,taille+2);
         SDL_RenderPresent(renderer);
-        SDL_Delay(1);
 
     }
 

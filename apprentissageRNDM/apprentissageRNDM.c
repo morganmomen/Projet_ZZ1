@@ -12,7 +12,7 @@ void apprentissageAleatoire(int tailleArg, int nombreiteration){
     // position_terrier.y=1;
     // int energieMax = 0;
     taille = tailleArg;
-    int nbLancer = 10;
+    int nbLancer = 5;
     int numFiles = 6;
     pthread_t threads[numFiles];
     char** fileNames = (char**)malloc(numFiles*nbLancer * sizeof(char*));
@@ -249,17 +249,17 @@ void finalTournoiRules(){
     position_terrier.x=1;
     position_terrier.y=1;
     int energieMax = 0;
-
+    int nbLancer = 5;
     int numFiles = 6;
-    char** fileNames = (char**)malloc(numFiles * sizeof(char*));
-    for (int i = 0; i < numFiles; i++)
+    char** fileNames = (char**)malloc(numFiles*nbLancer * sizeof(char*));
+    for (int i = 0; i < numFiles*nbLancer; i++)
     {
         fileNames[i] = (char*)malloc(255 * sizeof(char));
-        sprintf(fileNames[i], "./thread%d.txt", i + 1);
+        sprintf(fileNames[i], "./res/thread%d.txt", i + 1);
+        printf("%s\n", fileNames[i]);
     }
-    for(int i = 0; i < numFiles; i++){
+    for(int i = 0; i < numFiles * nbLancer; i++){
 
-        // generation de regles
         ruleSet_t *rules = malloc(sizeof(ruleSet_t));
         rules->rules = malloc(sizeof(rule_t) * NB_RULES);
         readRulesFromFile(fileNames[i], &(rules->rules));
@@ -272,7 +272,7 @@ void finalTournoiRules(){
         int nbreussite_total = 0;
         int drapeau_chasse;
         int nbIterationParSimu = 0;
-        for(int nbSimu = 0; nbSimu < 500 ; nbSimu++){
+        for(int nbSimu = 0; nbSimu < 100 ; nbSimu++){
 
             map = init_map(taille+2);
             position * position_chasseur = generateMaze(map, taille+2);
@@ -307,7 +307,6 @@ void finalTournoiRules(){
                 }
                 if ((position_terrier.x==jlapin.x)&&(position_terrier.y==jlapin.y))
                 {
-                    printf("Le lapin a gagne\n");
                     drapeau_chasse = 2;
                 }
 
@@ -320,13 +319,9 @@ void finalTournoiRules(){
             liberer_map(map,taille);
 
         }
-        
-        if(nbreussite_total >= energieMax){
-            energieMax = nbreussite_total;
-            printf("Nouveau record : %d\n", energieMax);
-            //printRuleSet(rules);
-            writeRulesToFile(rules->rules, NB_RULES, "./Bestrules.txt");
-        }
+        printf(" thread %s : pourcentage : %d/100\n",fileNames[i] ,nbreussite_total);
+
+
 
     }
         

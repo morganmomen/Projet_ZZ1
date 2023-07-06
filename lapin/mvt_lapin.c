@@ -119,7 +119,7 @@ int lapin(int **map, joueur_t *lapin, int taille, ruleSet_t *rules) {
     SDL_RenderClear(renderer);
     affichefond(renderer, window, map, taille + 2);
     SDL_RenderPresent(renderer);
-    SDL_Delay(10);
+    //SDL_Delay(10);
     nb_iteration ++;
     printf("Nombre d'itération : %d\n", nb_iteration);
   }
