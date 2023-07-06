@@ -41,7 +41,7 @@ int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-    int taille = 50;
+    int taille = 20;
 
     /*Avec direction fleches*/
 
