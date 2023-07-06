@@ -48,7 +48,7 @@ ruleSet_t *generateRuleSet();
 void printRule(rule_t *rule);
 void printRuleSet(ruleSet_t *rules);
 void freeRule(rule_t *rule);
-void freeRuleSet(rule_t **rules);
+void freeRuleSet(ruleSet_t *rules);
 void writeRulesToFile(rule_t* rules, int size, const char* filename);
 void readRulesFromFile(const char* filename, rule_t** rules);
 #endif

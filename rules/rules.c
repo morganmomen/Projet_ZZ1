@@ -58,9 +58,10 @@ void printRuleSet(ruleSet_t *rules) {
 }
 
 void freeRule(rule_t *rule) { free(rule); }
-void freeRuleSet(rule_t **rules) {
+
+void freeRuleSet(ruleSet_t *rules) {
   for (int i = 0; i < NB_RULES; i++)
-    freeRule(rules[i]);
+    freeRule(&(rules->rules[i]));
   free(rules);
 }
 void readRulesFromFile(const char *filename, rule_t **rules) {

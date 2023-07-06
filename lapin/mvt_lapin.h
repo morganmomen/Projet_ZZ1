@@ -1,7 +1,6 @@
 //#include "../recuit_simule/recuit_simule.h"
-#include <SDL2/SDL_keyboard.h>
-#include <SDL2/SDL.h>
-#include "../rules/changeRules.h"
+//#include "../rules/changeRules.h"
+#include "../rules/changeRules_multithreading.h"
 #include "../rules/choixRules.h"
 #include "../rules/rules.h"
 

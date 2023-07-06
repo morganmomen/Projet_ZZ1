@@ -65,35 +65,35 @@ ruleSet_t *changeRuleSet(ruleSet_t *rules);
 int choose_rule();
 int choose_parameter();
 void copyRuleSet(ruleSet_t rules, ruleSet_t *copy);
-void insertRule(ruleSet_t ruleset, ruleSet_t *tempruleset, int parameter,
+void insertRule(ruleSet_t attempt_ruleset, int parameter,
                 int possibility, int nb_rule);
 void change_case2(ruleSet_t ruleset, int nb_rule, int parameter,
-                  void energy_multithreading(ruleSet_t *attempt_rules,
+                  void energy_multithreading(ruleSet_t **attempt_rules,
                                              int nb_threads, int taille,
                                              int coef_chasseur,
                                              int coef_terrier),
                   int taille, ruleSet_t *bestRules);
 void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter,
-                        void energy(ruleSet_t *attempt_rules, int nb_threads,
+                        void energy(ruleSet_t **attempt_rules, int nb_threads,
                                     int taille, int coef_chasseur,
                                     int coef_terrier),
                         int taille, ruleSet_t *bestRules);
 void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter,
-                       void energy(ruleSet_t *attempt_rules, int nb_threads,
+                       void energy(ruleSet_t **attempt_rules, int nb_threads,
                                    int taille, int coef_chasseur,
                                    int coef_terrier),
                        int taille, ruleSet_t *bestRules);
 void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter,
-                     void energy(ruleSet_t *attempt_rules, int nb_threads,
+                     void energy(ruleSet_t **attempt_rules, int nb_threads,
                                  int taille, int coef_chasseur,
                                  int coef_terrier),
                      int taille, ruleSet_t *bestRules);
 void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter,
-                       void energy(ruleSet_t *attempt_rules, int nb_threads,
+                       void energy(ruleSet_t **attempt_rules, int nb_threads,
                                    int taille, int coef_chasseur,
                                    int coef_terrier),
                        int taille, ruleSet_t *bestRules);
 void changeRule2(ruleSet_t *rules, int taille,
-                 void energy(ruleSet_t *attempt_rules, int nb_threads,
+                 void energy(ruleSet_t **attempt_rules, int nb_threads,
                              int taille, int coef_chasseur, int coef_terrier),
                  ruleSet_t *bestRules, int nb_rule, int parameter);

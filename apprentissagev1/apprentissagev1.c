@@ -120,5 +120,6 @@ void shuffle(int *array, int n)
     }
     printf("Energy : %d\n",rules.energy);
     writeRulesToFile(rules.rules,NB_RULES, "../input_regles.txt");
+    freeRuleSet(&rules);
     return 0;
 }

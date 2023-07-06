@@ -1,6 +1,6 @@
 # Variables
 CC = gcc
-CFLAGS = -Wall -Wextra -g -fsanitize=address -pthread
+CFLAGS = -Wall -Wextra -pthread -g -fsanitize=address
 LDFLAGS =-lSDL2 -lSDL2_image -lm -lSDL2_ttf
 
 # Répertoires
