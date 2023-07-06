@@ -5,12 +5,18 @@
 
 void generateRule(rule_t *rule) {
   srand(time(NULL) + rand());
+  int terrier_v = 2;
   rule->_case[0] = (rand() % 4) - 1;
   rule->_case[1] = (rand() % 4) - 1;
   rule->_case[2] = (rand() % 4) - 1;
   rule->_case[3] = (rand() % 4) - 1;
+  for(int i = 0; i<4; i++){
+    if(rule->_case[i] == 2) rule->_case[i] = terrier_v;
+    terrier_v = -1;
+  }
   rule->direction_predateur = (rand() % 5) - 1;
   rule->direction_terrier = (rand() % 5) - 1;
+  if(rule->direction_terrier >1) rule->direction_terrier = -1;
   rule->distance_predateur = (rand() % 3) - 1;
   rule->distance_terrier = (rand() % 3) - 1;
   rule->action = (rand() % 4);
@@ -20,6 +26,7 @@ void generateRule(rule_t *rule) {
 ruleSet_t *generateRuleSet() {
   ruleSet_t *rules = (ruleSet_t *)malloc(sizeof(ruleSet_t));
   rules->rules = (rule_t *)malloc(NB_RULES * sizeof(rule_t));
+
   for (int i = 0; i < NB_RULES; i++)
   {
     //printf("i=%d\n",i);
