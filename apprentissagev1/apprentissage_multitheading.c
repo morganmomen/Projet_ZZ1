@@ -78,6 +78,17 @@ void energy_multithreading(ruleSet_t *attempt_rules, int nb_threads, int taille,
       exit(1);
     }
   }
+  for (int i = 0; i < nb_threads; i++)
+  {
+    attempt_rules[i].energy = thread_args[i].rules->energy;
+  }
+    for (int i = 0; i < nb_threads; i++) {
+        free(thread_args[i].rules->rules);
+        free(thread_args[i].rules);
+    }
+    free(thread_args);
+  
+  
 }
 void *thread_jeu(void *arg) {
   thread_args_t *struct_thread_args = (thread_args_t *)arg;
@@ -86,12 +97,12 @@ void *thread_jeu(void *arg) {
   int compteur_lapin = 0;
   int score;
 
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 100; i++) {
     score = lancer_jeu_sans_graphisme_apprentissage_multithreading(
         struct_thread_args->taille, &nb_iterations, struct_thread_args->rules);
     compteur_lapin += score;
   }
-  compteur_lapin /= 10;
+  compteur_lapin /= 100;
   printf("Le lapin a un score de %d\n", compteur_lapin);
   struct_thread_args->rules->energy = compteur_lapin;
   pthread_exit(NULL);
