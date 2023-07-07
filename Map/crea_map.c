@@ -82,7 +82,7 @@ position *generateMaze(int **maze, int taille) {
   position *position_chasseur = malloc(sizeof(position));
   position *position_lapin = malloc(sizeof(position));
   // Initialisation du générateur de nombres aléatoires
-
+  int NbGeneration =0; 
   int depart;
   int arriver;
   int *suivant = NULL;
@@ -90,6 +90,11 @@ position *generateMaze(int **maze, int taille) {
   int tailleChemin = 1;
 
   while (tailleChemin <= 2) {
+    if(NbGeneration == 10 ){
+      fprintf(stderr ,"ERREUR LORS DE LA GENERATION DU TERRAIN");
+      exit(1);
+    }
+    NbGeneration++;
     srand(time(NULL) * rand());
     //srand(1);
     //srand(4);
