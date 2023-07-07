@@ -41,28 +41,28 @@ int main(int argc, char **argv)
 {
     (void)argc;
     (void)argv;
-    int taille = 20;
+    int taille = 15;
 
     /*Avec direction fleches*/
 
-    int nbiterations;
-    int resultat = lancer_jeu_avec_graphisme_avec_control_lapin(taille, &nbiterations);
-    if(resultat == 0)
-    {
-        printf("Le chasseur a gagné\n");
-    }
-    else
-    {
-        printf("Le lapin a gagné\n");
-    }
+    // int nbiterations;
+    // int resultat = lancer_jeu_avec_graphisme_avec_control_lapin(taille, &nbiterations);
+    // if(resultat == 0)
+    // {
+    //     printf("Le chasseur a gagné\n");
+    // }
+    // else
+    // {
+    //     printf("Le lapin a gagné\n");
+    // }
     
-    printf("Le nombre d'itérations est de %d\n", nbiterations);
+    // printf("Le nombre d'itérations est de %d\n", nbiterations);
     
 
 
-    // /*SANS GRAPHISME*/
+    // // /*SANS GRAPHISME*/
     // printf("Bienvenue dans le jeu du chasseur et du lapin\n");
-    // int nbLancer = 100;
+    // int nbLancer = 1000;
     // int resultat[nbLancer];
     // int nb_iterations[nbLancer];
     // for(int i = 0; i < nbLancer; i++)
@@ -92,19 +92,19 @@ int main(int argc, char **argv)
     // printf("Le nombre moyen d'itérations est de %d\n", nb_iterations_total/nbLancer);
 
     /*AVEC GRAPHISME*/
-    // int nbiterations;
-    // int resultat = lancer_jeu_avec_graphisme(taille, &nbiterations);
-    // if(resultat == 0)
-    // {
-    //     printf("Le chasseur a gagné\n");
-    // }
-    // else
-    // {
-    //     printf("Le lapin a gagné\n");
-    // }
+    int nbiterations;
+    int resultat = lancer_jeu_avec_graphisme(taille, &nbiterations);
+    if(resultat == 0)
+    {
+        printf("Le chasseur a gagné\n");
+    }
+    else
+    {
+        printf("Le lapin a gagné\n");
+    }
     
-    // printf("Le nombre d'itérations est de %d\n", nbiterations);
-    // return 0;
+    printf("Le nombre d'itérations est de %d\n", nbiterations);
+    return 0;
 
     /*THREAD*/
     // int nbThread = 1;

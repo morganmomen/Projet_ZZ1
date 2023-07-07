@@ -91,6 +91,7 @@ position *generateMaze(int **maze, int taille) {
 
   while (tailleChemin <= 2) {
     srand(time(NULL) * rand());
+    //srand(1);
     //srand(4);
     for (i = 0; i < taille; i++) {
       for (j = 0; j < taille; j++) {
