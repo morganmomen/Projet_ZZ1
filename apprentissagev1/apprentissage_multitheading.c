@@ -117,9 +117,16 @@ void shuffle(int *array, int n) {
   }
 }
 int score(joueur_t lapin, position terrier, int drapeau_chasseur,int taille) {
-  int score_joueur = 100*(abs(lapin.x - taille) + abs(lapin.y - taille));
-  if (drapeau_chasseur == 2) {
-    score_joueur += 10000;
+  int score_joueur =0;
+  switch (drapeau_chasseur)
+  {
+  case 2:
+    score_joueur = 0.75*10000;
+    break;
+  default:
+  score_joueur = 0.25 *100*abs((lapin.x - taille) +  (lapin.y - taille));
+    break;
   }
+
   return score_joueur;
 }
