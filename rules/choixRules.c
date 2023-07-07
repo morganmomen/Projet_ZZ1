@@ -15,7 +15,7 @@ action_t choixRule(ruleSet_t *rules, joueur_t *joueur) {
   }
 
   if (nbRuleValide == 0) {
-    return rand() % 5;
+    return -1;
   }
 
   // for (int i = 0; i < nbRuleValide; i++) {

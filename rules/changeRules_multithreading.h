@@ -68,8 +68,7 @@ int choose_rule();
 int choose_parameter();
 int score(joueur_t lapin, position terrier, int chasse, int taille);
 void copyRuleSet(ruleSet_t rules, ruleSet_t *copy);
-void insertRule(ruleSet_t attempt_ruleset, int parameter,
-                int possibility, int nb_rule);
+void insertRule(ruleSet_t attempt_ruleset, int parameter,int possibility, int nb_rule);
 void change_case2(ruleSet_t ruleset, int nb_rule, int parameter,
                   void energy_multithreading(ruleSet_t *attempt_rules,
                                              int nb_threads, int taille,

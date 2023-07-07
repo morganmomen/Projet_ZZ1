@@ -125,7 +125,6 @@ position *generateMaze(int **maze, int taille) {
         }
       }
     }
-
     maze[1][1] = 2;                   // Position terrier du lapin
     maze[taille - 2][taille - 2] = 3; // Position du lapin
     position_lapin->x = taille - 2;
@@ -139,9 +138,7 @@ position *generateMaze(int **maze, int taille) {
     suivant = dijkstra(maze, depart, arriver, taille);
 
     etat_prochain = obtenirChemin(suivant, arriver, &tailleChemin);
-
   }
-
 
   return position_chasseur;
 }

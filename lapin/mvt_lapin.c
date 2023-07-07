@@ -32,6 +32,7 @@ void cherche_chasseur(int **map, int taille, joueur_t *lapin) {
     lapin->distance_predateur = MOYEN;
   else
     lapin->distance_predateur = LOIN;
+  free(chasseur);
 }
 
 void recherche_terrier(int **map, int taille, joueur_t *lapin) {
@@ -66,6 +67,7 @@ void recherche_terrier(int **map, int taille, joueur_t *lapin) {
     lapin->distance_terrier = MOYEN;
   else
     lapin->distance_terrier = LOIN;
+  free(terrier);
 }
 
 void deplacement_lapin(int **map, int taille, ruleSet_t *rules,
@@ -102,7 +104,6 @@ void deplacement_lapin(int **map, int taille, ruleSet_t *rules,
       ;
     // printf("Lapin : Je ne peux pas avancer\n")
     else
-      lapin->x = lapin->x + 1;
     break;
   }
 

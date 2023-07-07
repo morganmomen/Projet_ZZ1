@@ -21,16 +21,28 @@ void copyRuleSet(ruleSet_t rules, ruleSet_t *copy) {
 }
 
 void setup_attempts(ruleSet_t *attempts, int taille_attempts,
-                    ruleSet_t intial_ruleset, int parameter, int possibility,
-                    int nb_rule) {
+                    ruleSet_t intial_ruleset, int parameter, int nb_rule) {
   for (int i = 0; i < taille_attempts; i++) {
     attempts[i].rules = malloc(NB_RULES * sizeof(rule_t));
     attempts[i].energy = 0;
   }
-  for (int i = 0; i < taille_attempts; i++) {
-    copyRuleSet(intial_ruleset, &attempts[i]);
-    insertRule(attempts[i], parameter, possibility, nb_rule);
+  if (parameter == 8 || parameter == 9) 
+  {
+    for (int i = 0; i < taille_attempts; i++) {
+      copyRuleSet(intial_ruleset, &attempts[i]);
+      insertRule(attempts[i], parameter, i, nb_rule);
+    }
   }
+  else
+  {
+    for (int i = 0; i < taille_attempts; i++)
+    {
+      copyRuleSet(intial_ruleset, &attempts[i]);
+      insertRule(attempts[i], parameter, i-1, nb_rule);
+    }
+    
+  }
+  
 }
 
 int choose_rule() {
@@ -43,6 +55,21 @@ int choose_parameter() {
 }
 void insertRule(ruleSet_t attempt_ruleset, int parameter, int possibility,
                 int nb_rule) {
+
+  if(parameter < 4 ){
+    if(possibility == 3) possibility = -1;
+    else if(possibility == 4){
+      if(attempt_ruleset.rules[nb_rule]._case[0] == 4 || attempt_ruleset.rules[nb_rule]._case[1] == 4 || attempt_ruleset.rules[nb_rule]._case[2] == 4 || attempt_ruleset.rules[nb_rule]._case[3] == 4) possibility = -1;
+      
+    }
+    else if(possibility == 2){
+      if(attempt_ruleset.rules[nb_rule]._case[0] == 2 || attempt_ruleset.rules[nb_rule]._case[1] == 2 || attempt_ruleset.rules[nb_rule]._case[2] == 2 || attempt_ruleset.rules[nb_rule]._case[3] == 2) possibility = -1;
+      
+    }
+  }
+  else if(parameter == 5){
+    if(possibility == SUD || possibility == EST) possibility = -1;
+  }
 
   switch (parameter) {
   case 0:
@@ -90,7 +117,7 @@ void change_case2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[6];
-  setup_attempts(ruleset_attempt, 6, ruleset, parameter, 0, nb_rule);
+  setup_attempts(ruleset_attempt, 6, ruleset, parameter, nb_rule);
   energy_multithreading(ruleset_attempt, 6, taille, 0, 1);
   for (int i = 0; i < 6; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
@@ -98,8 +125,15 @@ void change_case2(ruleSet_t ruleset, int nb_rule, int parameter,
       bestruleSet = i;
     }
   }
+    printf("bestEnergy : %d\n", bestEnergy);
+  printf("BestRuleSet : %d\n", bestruleSet);
   copyRuleSet(ruleset_attempt[bestruleSet], bestRules);
   bestRules->energy = bestEnergy;
+  for (int i = 0; i < 6; i++)
+  {
+    freeRule(ruleset_attempt[i].rules);
+  }
+  
 }
 
 void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter,
@@ -111,7 +145,7 @@ void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[5];
-  setup_attempts(ruleset_attempt, 5, ruleset, parameter, 0, nb_rule);
+  setup_attempts(ruleset_attempt, 5, ruleset, parameter, nb_rule);
 
   energy_multithreading(ruleset_attempt, 5, taille, 0, 1);
   for (int i = 0; i < 5; i++) {
@@ -120,8 +154,14 @@ void change_direction_2(ruleSet_t ruleset, int nb_rule, int parameter,
       bestruleSet = i;
     }
   }
+    printf("bestEnergy : %d\n", bestEnergy);
+  printf("BestRuleSet : %d\n", bestruleSet);
   copyRuleSet(ruleset_attempt[bestruleSet], bestRules);
   bestRules->energy = bestEnergy;
+  for (int i = 0; i < 5; i++)
+  {
+    freeRule(ruleset_attempt[i].rules);
+  }
 }
 
 void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter,
@@ -133,7 +173,7 @@ void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[4];
-  setup_attempts(ruleset_attempt, 4, ruleset, parameter, 0, nb_rule);
+  setup_attempts(ruleset_attempt, 4, ruleset, parameter, nb_rule);
   energy_multithreading(ruleset_attempt, 4, taille, 0, 1);
   for (int i = 0; i < 4; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
@@ -141,8 +181,14 @@ void change_distance_2(ruleSet_t ruleset, int nb_rule, int parameter,
       bestruleSet = i;
     }
   }
+    printf("bestEnergy : %d\n", bestEnergy);
+  printf("BestRuleSet : %d\n", bestruleSet);
   copyRuleSet(ruleset_attempt[bestruleSet], bestRules);
   bestRules->energy = bestEnergy;
+  for (int i = 0; i < 4; i++)
+  {
+    freeRule(ruleset_attempt[i].rules);
+  }
 }
 
 void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter,
@@ -154,7 +200,7 @@ void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[3];
-  setup_attempts(ruleset_attempt, 3, ruleset, parameter, 0, nb_rule);
+  setup_attempts(ruleset_attempt, 3, ruleset, parameter, nb_rule);
   energy_multithreading(ruleset_attempt, 3, taille, 0, 1);
   for (int i = 0; i < 3; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
@@ -162,6 +208,8 @@ void change_action_2(ruleSet_t ruleset, int nb_rule, int parameter,
       bestruleSet = i;
     }
   }
+    printf("bestEnergy : %d\n", bestEnergy);
+  printf("BestRuleSet : %d\n", bestruleSet);
   copyRuleSet(ruleset_attempt[bestruleSet], bestRules);
   bestRules->energy = bestEnergy;
 }
@@ -175,7 +223,7 @@ void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter,
   int bestEnergy = 0;
   int bestruleSet = 0;
   ruleSet_t ruleset_attempt[3];
-  setup_attempts(ruleset_attempt, 3, ruleset, parameter, 0, nb_rule);
+  setup_attempts(ruleset_attempt, 3, ruleset, parameter, nb_rule);
   energy_multithreading(ruleset_attempt, 3, taille, 0, 1);
   for (int i = 0; i < 3; i++) {
     if (ruleset_attempt[i].energy > bestEnergy) {
@@ -183,8 +231,14 @@ void change_priority_2(ruleSet_t ruleset, int nb_rule, int parameter,
       bestruleSet = i;
     }
   }
+  printf("bestEnergy : %d\n", bestEnergy);
+  printf("BestRuleSet : %d\n", bestruleSet);
   copyRuleSet(ruleset_attempt[bestruleSet], bestRules);
   bestRules->energy = bestEnergy;
+  for (int i = 0; i < 3; i++)
+  {
+    freeRule(ruleset_attempt[i].rules);
+  }
 }
 void changeRule2(ruleSet_t *rules, int taille,
                  void energy_multithreading(ruleSet_t *attempt_rules,
